@@ -1,6 +1,6 @@
 This is the source code for EasySolarEstimator.Site
 
-What is EasySolarEstimator
+What is EasySolarEstimator?
 
 I found that as someone who knew nothing about solar power most solar power guides and calculators were not helpful, easy, or understandable.
 
