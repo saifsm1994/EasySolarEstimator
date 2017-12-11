@@ -1,0 +1,201 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Your location</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Estimates the viability of using solar power and provides preliminary cost estimates for energy-connected Solar Photovoltaic (PV) energy systems around the world. Helps residential scale users and homeowners determine whether it is worth looking into installing solar PV systems">
+  <meta name="keywords" content="solar estimator, solar calculators, Solar system,Solar panels,renewable energy, viability of solar power, simplified, easy, eli5">
+  <meta name="author" content="Saif Mustafa">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+    <!-- Bootstrap core CSS -->
+
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="dashboard.css" rel="stylesheet">
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
+    <link rel="stylesheet" href="assets\js\morris.js-0.5.1\morris.css">
+    <script src="assets/js/raphael.min.js"></script>
+    <script src="assets/js/morris.js-0.5.1/morris.js"></script>
+    <script src="engineCodeMain.js"></script>
+
+    <script>
+        $(function() {
+            $("#sidebar").load("sidebar.html");
+            $("#navbar").load("navbar.html");
+            $("#footer").load("footer.html");
+
+            geoLocater1()
+            
+
+        });
+
+    </script>
+</head>
+<style>
+    .subBox {
+        display: none;
+    }
+    
+    .ct-series-a .ct-slice-pie {
+        /* fill of the pie slieces */
+        fill: hsl(120, 40%, 60%);
+        /* give your pie slices some outline or separate them visually by using the background color here */
+        stroke: white;
+        /* outline width */
+        stroke-width: 4px;
+    }
+    
+    .initialHidden {
+        display: none;
+    }
+    
+    .placeholder {
+        background: AliceBlue;
+    }
+    
+    .clickHeader {
+        background: grey;
+        color: white;
+    }
+    
+    .circle {
+        /*        max-width:45%;
+        max-height:45%;
+        185px*/
+        width: 18vh;
+        height: 18vh;
+        border-radius: 50%;
+        <!-- font-size: 18px;
+        -->font-size: 7vw;
+        color: #000;
+        line-height: 18vh;
+        text-align: center;
+        font-weight: bold;
+        cursor: pointer;
+        cursor: hand;
+        margin: auto;
+        padding-bottom: 10px;
+        word-wrap: break-word;
+    }
+    
+        .square {
+        /*        max-width:45%;
+        max-height:45%;
+        185px*/
+        width: 18vh;
+        height: 18vh;
+   
+            font-size: 1vw;
+        color: #000;
+        line-height: 18vh;
+        text-align: center;
+        font-weight: bold;
+        cursor: pointer;
+        cursor: hand;
+        margin: auto;
+        padding-bottom: 10px;
+        word-wrap: break-word;
+    }
+    
+    .boldme {
+        font-weight: bold;
+    }
+
+</style>
+
+<body >
+    <div id="navbar"></div>
+    <div class="row">
+        <div id="sidebar"></div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main text-center" id="bodyOfThePage">
+            <h1 class="page-header">Location</h1>
+            <button class="bluebutton" onclick ="replaceFullAddress()" style="margin-bottom: 20px;"> Click here to reload location information</button>
+
+            <div class="row placeholders" style="background: aliceblue;">
+                <!--Circle 1 Location           -->
+                <div class="col-xs-6 col-sm-3 placeholder" id="upBox1">
+                    <div class="square upperBox" style=" word-wrap: break-word; background: lightblue;" id="sendCountryFull">Country</div>
+                    <h4 class="boldme"  >Country</h4><!--id="sendCountryFull"-->
+<!--
+                    <span class="text-muted">Country</span>
+-->
+                </div>
+
+                <!--Circle 2 GHI Value           -->
+                <div class="col-xs-6 col-sm-3 placeholder" id="upBox2" onclick="myFunctionSB2()">
+                    <div class="square upperBox" style="  background: gold;" id="sendCityFull">City</div>
+                    <h4 class="boldme">City</h4>
+<!--
+                    <span class="text-muted">City</span>
+-->
+                </div>
+
+                <!--Circle 3 Comparitive GHI          -->
+
+                <div class="col-xs-6 col-sm-3 placeholder" id="upBox3" onclick="myFunctionSB3()">
+                    <div class="square upperBox" style="  background: plum;"  id="sendLat" >Latitude</div>
+                    <h4 class="boldme">Latitude</h4>
+<!--
+                    <span class="text-muted">Latitude</span>
+-->
+                </div>
+
+                <!--Circle 4 Relative Potential          -->
+
+                <div class="col-xs-6 col-sm-3 placeholder" id="upBox4" onclick="myFunctionSB4()">
+                    <div class="square upperBox" style=" overflow:hidden; word-wrap:break-word; background: brown;" id="sendLon">Longitude</div>
+                    <h4 class="boldme">Longitude</h4>
+<!--
+                    <span class="text-muted">Longitude</span>
+-->
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <!--Second Row-->
+
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main text-center" id="secondRow">
+
+                <div class="col-xs-8 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1  placeholder" id="upBox5" onclick="myFunctionSB5()">
+                    <div class="rectangle upperBox" style=" overflow:hidden; word-wrap:break-word; background: brown;" id="sendStreetAddress">Full Address</div>
+                    <h4 class="boldme">Full Address</h4>
+<!--
+                    <span class="text-muted">Longitude</span>
+-->
+                </div>        
+        </div>
+        
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main " id="endRow" style = "margin-top:250px;">
+        <div id="footer"></div>
+
+        </div>
+          
+        
+    </div>
+    
+        <!--Triggers-->
+    <span id="sendMeGhiDataNo" style="visibility: hidden;"> true</span>
+    <span id="sendMeGhiDataHoverNO" style="visibility: hidden;"> true</span>
+    <span id="sendMeAveragesComparativeNo" style="visibility: hidden;"> true</span>
+    <!--    //Includes hover-->
+    <span id="isCountryNeededYes" style="visibility: hidden;"></span>
+    <span id="isLatLonSendNeededYes" style="visibility: hidden;"></span>
+    <span id="isStDevNeededNo" style="visibility: hidden;"></span>
+
+
+</body>
+
+</html>

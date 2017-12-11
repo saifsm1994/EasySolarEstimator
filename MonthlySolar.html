@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Dashboard Template for Bootstrap</title>
+        <!-- Bootstrap core CSS -->
+        <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+        <!-- Custom styles for this template -->
+        <link href="dashboard.css" rel="stylesheet">
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="bootstrap/js/bootstrap.min.js"></script>
+		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+		<script src="assets/js/ie10-viewport-bug-workaround.js"></script>
+		<link rel="stylesheet" href="assets\js\morris.js-0.5.1\morris.css">
+		<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script> -->
+		<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script> -->
+		<script src="assets/js/raphael.min.js"></script>
+		<script src="assets/js/morris.js-0.5.1/morris.js"></script>
+
+
+
+
+		
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- For pie chaarts https://gionkunz.github.io/chartist-js/getting-started.html -->
+	<!-- 		<link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+	<script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script> -->
+	<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		
+	<![endif]-->
+    </head>
+	<style>
+.subBox{
+	display:none;
+}
+.ct-series-a .ct-slice-pie {
+	  /* fill of the pie slieces */
+	  fill: hsl(120, 40%, 60%);
+	  /* give your pie slices some outline or separate them visually by using the background color here */
+	  stroke: white;
+	  /* outline width */
+	  stroke-width: 4px;
+}
+.initialHidden{
+display:none;
+
+}
+.placeholder{
+background:AliceBlue;
+}
+.clickHeader{
+background:grey;
+color:white;
+}
+.circle {
+  width: 185px;
+  height: 185px;
+  border-radius: 50%;
+  <!-- font-size: 18px; -->
+  font-size: 7vw;
+  color: #000;
+  line-height: 185px;
+  text-align: center;
+ font-weight: bold;
+ cursor: pointer;
+ cursor: hand;
+ margin: auto;
+ padding-bottom:10px;
+}
+.boldme{
+	    font-weight: bold;
+}
+	</style>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Solar Viability Estimator</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="solar.html">Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="#monthlyHeader" onclick="myFunction()">Month By Month Detailed</a>
+                        </li>
+                        <li>
+                            <a href="#consistHeader" onclick="myFunction2()">Analysis Detailed</a>
+                        </li>
+<!-- <!--                         <li> -->
+                            <!-- <a href="#">Settings</a> -->
+                        <!-- </li> --> -->
+                        <li>
+</li>
+                        <li>
+                            <a href="#">Help</a>
+                        </li>
+                    </ul>
+                    <form class="navbar-form navbar-right">
+                        <input type="text" class="form-control" placeholder="NotYetFunctional...">
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 col-md-2 sidebar"> 
+                    <ul class="nav nav-sidebar">
+                        <!-- <li class="active"> -->
+                            <!-- <a href="#">Overview                 <span class="sr-only">(current)</span></a> -->
+                        <!-- </li> -->
+                        <!-- <!-- <li> --> -->
+                            <!-- <!-- <a href="#">Month byMonth Breakdown</a> --> -->
+                        <!-- <!-- </li> --> -->
+                        <!-- <li> -->
+                            <!-- <a href="#">How this works</a> -->
+                        <!-- </li> -->
+						
+						<!-- <li> -->
+						<!-- <a href="#">What does this mean?</a> -->
+						<!-- </li> -->
+						
+						<!-- <li> -->
+						<!-- <a href="#">How accurate is this data?</a> -->
+						<!-- </li> -->
+						
+						
+                        <!-- <li> -->
+                            <!-- <a href="#">Export</a> -->
+                        <!-- </li> -->
+                    <!-- </ul> -->
+                    <!-- <ul class="nav nav-sidebar"> -->
+                        <!-- <li> -->
+                            <!-- <a href="">Disclaimers</a> -->
+                        <!-- </li>                          -->
+                        <!-- <li>  -->
+                            <!-- <a href=""> <br></a> -->
+                        <!-- </li> -->
+                        <li>
+</li>
+                        <li>
+</li>
+                        <li>
+</li>
+                    </ul>
+                    <ul class="nav nav-sidebar">
+                        <li>
+</li>
+                        <li>
+</li>
+                        <li>
+</li>
+                    </ul>
+                </div>
+				
+				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main text-center">
+				
+				<div>
+<h1 style="margin-top:10px;"> Month by Month GHI Chart</h1>
+<div id="myfirstchart"  style="height: 250px; padding-bottom:20px;"></div>
+</div>
+
+<div class="col-md-12" style="height:20px;"></div>
+<div class="col-md-12" style="height:20px;"></div>
+					
+					
+	<!--Month by  Month Panels. Forward piecharts here-->
+	<!--Month by  Month Panels. Forward piecharts here-->
+	<!--Month by  Month Panels. Forward piecharts here-->
+
+<div>
+<h2 class="sub-header text-center clickHeader"  id="monthlyHeader" >Month By Month Breakdown
+</h2>
+
+<div id="monthDiv" class="iniialHidden">
+<small class="col-md-10 text-capitalize" style="padding-bottom:10px;" >Percentage of Annual Solar Power ( GHI) recived per month</small>
+		<div class="col-md-3 bg-primary text-center">
+			<h2>January</h2>
+		<h5 id="sendJan" >Portion of annual GHI: </h5>
+		<div></div>
+		<h5 id="mbmGhiJan">Average GHI: </h5>
+		</div>
+<div class="col-md-1"></div>
+		<div class="col-md-3 bg-primary text-center">
+			<h2>Febuary</h2>
+		<h5 id="sendFeb" >Portion of annual GHI: </h5>
+		<div></div>
+		<h5 id="mbmGhiFeb">Average GHI: </h5>
+		</div>
+<div class="col-md-1"></div>
+<!--Spacer-->
+		<div class="col-md-3 bg-primary text-center">
+			<h2>March</h2>
+		<h5 id="sendMar" >Portion of annual GHI: </h5>
+		<div></div>
+		<h5  id="mbmGhiMar">Average GHI: </h5>
+		</div>                         
+<div class="clearfix clear-columns"></div>
+<div class="col-md-12" style="height:20px;"></div>
+<!--Bigger Spacer full row-->
+		<div class="col-md-3 bg-primary text-center">
+			<h2>April</h2>
+		<h5 id="sendApr" >Portion of annual GHI: </h5>
+		<div></div>
+		<h5 id="mbmGhiApr">Average GHI: </h5>
+		</div>
+<div class="col-md-1"></div>
+<!--Spacer-->
+		<div class="col-md-3 bg-primary text-center">
+			<h2>May</h2>
+		<h5 id="sendMay" >Portion of annual GHI: </h5>
+		<div></div>
+		<h5 id="mbmGhiMay">Average GHI: </h5>
+		</div>
+<div class="col-md-1"></div>
+<!--Spacer-->
+		<div class="col-md-3 bg-primary text-center">
+			<h2>June</h2>
+		<h5 id="sendJun" >Portion of annual GHI: </h5>
+		<div></div>
+		<h5 id="mbmGhiJun">Average GHI: </h5>
+		</div>                         
+<div class="clearfix clear-columns"></div>
+<div class="col-md-12" style="height:20px;"></div>
+<!--Bigger Spacer full row-->
+		<div class="col-md-3 bg-primary text-center">
+			<h2>July</h2>
+		<h5 id="sendJul" >Portion of annual GHI: </h5>
+		<div></div>
+		<h5 id="mbmGhiJul">Average GHI: </h5>
+		</div>
+<div class="col-md-1"></div>
+		<div class="col-md-3 bg-primary text-center">
+			<h2>August</h2>
+		<h5 id="sendAug" >Portion of annual GHI: </h5>
+		<div></div>
+		<h5 id="mbmGhiAug">Average GHI: </h5>
+		</div>
+<div class="col-md-1"></div>
+<!--Spacer-->
+		<div class="col-md-3 bg-primary text-center">
+			<h2>September</h2>
+		<h5 id="sendSep" >Portion of annual GHI: </h5>
+		<div></div>
+		<h5 id="mbmGhiSep">Average GHI: </h5>
+		</div>                         
+<div class="clearfix clear-columns"></div>
+<div class="col-md-12" style="height:20px;"></div>
+<!--Bigger Spacer full row-->
+		<div class="col-md-3 bg-primary text-center">
+			<h2>October</h2>
+		<h5 id="sendOct" >Portion of annual GHI: </h5>
+		<div></div>
+		<h5 id="mbmGhiOct">Average GHI: </h5>
+		</div>
+<div class="col-md-1"></div>
+		<div class="col-md-3 bg-primary text-center">
+			<h2>November</h2>
+		<h5 id="sendNov" >Portion of annual GHI: </h5>
+		<div></div>
+		<h5 id="mbmGhiNov">Average GHI: </h5>
+		</div>
+<div class="col-md-1"></div>
+		<div class="col-md-3 bg-primary text-center">
+			<h2>December</h2>
+		<h5 id="sendDec" >Portion of annual GHI: </h5>
+		<div></div>
+		<h5 id="mbmGhiDec">Average GHI: </span>
+		</div>                         
+<div class="clearfix clear-columns"></div>
+<div class="col-md-12" style="height:20px;"></div>
+
+
+<!--Bigger Spacer full row-->
+
+</div>
+				</div>
+                <div class="col-sm-9 col-sm-offset-3 initialHidden col-md-10 col-md-offset-2 main text-center">
+                    <h1 class="page-header">Solar Compatability Dashboard</h1>
+                    <div class="row placeholders">
+                        <div class="col-xs-6 col-sm-3 placeholder" id="upBox1" onclick="myFunctionSB1()">
+                            <div class="circle upperBox" id="sendLocation" style="  background: lightblue;">Location</div>
+                            <h4 class="boldme">Location</h4>
+                            <span class="text-muted">Something else</span>
+                        </div>
+                        <div class="col-xs-6 col-sm-3 placeholder" id="upBox2" onclick="myFunctionSB2()">
+                            <div class="circle upperBox" id="sendGhi"  style="  background: gold;">Average Annual GHI</div>
+                            <h4 class="boldme">Average Annual GHI</h4>
+                            <span class="text-muted">(Global Horizontal Irradience)</span>
+							<span class="text-muted">kWh/m<sup>2</sup>/Day</span>
+
+                        </div>
+                        <div class="col-xs-6 col-sm-3 placeholder" id="upBox3" onclick="myFunctionSB3()">
+                            <div class="circle upperBox" id="sendCompGhi"  style="  background: plum;">Comparitive GHI</div>
+                            <h4 class="boldme">Comparitive GHI</h4>
+                            <span class="text-muted">Compared to Highest Global GHI</span>
+                        </div>
+                        <div class="col-xs-6 col-sm-3 placeholder" id="upBox4"  onclick="myFunctionSB4()">
+                            <div class="circle upperBox" id="sendPotential"  style="  background: brown;">Potential for Solar power</div>
+                            <h4 class="boldme">Relative potential for Solar power</h4>
+                            <span class="text-muted"></span>
+                        </div>
+                    </div>
+					
+					
+					
+	<!--Detailed boxes for further info on info, forward here-->
+	<!--Detailed boxes for further info on info, forward here-->
+	<!--Detailed boxes for further info on info, forward here-->
+					
+                    <div style="height:100px; border-color:black; display:none;" class="container text-left col-md-12 bg-info subBox" id="subBox1" >
+                        <h5 class="col-md-6 boldme" id="sendLocation1">Country:</h5>
+                        <h5 class="col-md-6 boldme" id="sendLocation2">City:</h5>
+                        <h5 class="col-md-6 boldme" id="sendLocation3">Co-ordinates:</h5>
+                        <h5 class="col-md-6 boldme" id="sendLocation4">Latitude: , Longitude: </h5>
+                        <h5 class="col-md-6 boldme" id="sendLocation5"></h5>
+                        <h5 class="col-md-6 boldme" id="sendLocation6"></h5>
+
+                    </div>
+                    <div style="margin-top: 20px; height:100px; display:none; background:gold;" class="container text-left col-md-12 bg-danger subBox" id="subBox2"  >
+                        <h5 class="col-md-6 boldme" id="sendGHI">Average annual GHI:</h5>
+                        <h5 class="col-md-6 boldme" id="sendGHI1">Highest average annual GHI:</h5>
+                        <h5 class="col-md-6 boldme" id="sendGHI2CC"></h5>
+                        <h5 class="col-md-6 boldme" id="sendGHI3">Lowest average annual GHI:</h5>
+                    </div>
+                    <div style="margin-top: 20px; height:120px; display:none; background:plum; color:white;  padding-bottom:10px;" class="container text-left col-md-12 bg-success subBox" id="subBox3"  >
+                        <h4 class="col-md-6" id="sendCompGhi0">Comparative Ghi</h4>
+						<h5 class="col-md-6 boldme"></h5>
+						<h5 class="col-md-6 boldme"></h5>
+                        <h5 class="col-md-6 boldme" id="sendGHI4">Global median average annual GHI</h5>
+						<h5 class="col-md-6 boldme" id="sendCompGhi4" style=" padding-bottom:10px;">Compared to global median average annual GHI</h5>
+                        <h5 class="col-md-6 boldme" id="sendGHI5">Global maximum average annual GHI</h5>
+                        <h5 class="col-md-6 boldme" id="sendCompGhi2">Compared to Global maximum average annual GHI</h5>
+                        <!-- <h5 class="col-md-6" id="sendCompGhi5">Heading 5</h5> -->
+                    </div>
+                    <div id="subBox4"" style="margin-top: 20px; height:120px; display:none; background:brown; color:white;" class="container text-left col-md-12 bg-info subBox" style="display:none;">
+                        <h5 class="col-md-6">Mean Annual Global GHI = 3.943</h5>
+						<h5 class="col-md-6" id="howmanystds"> Your solar potential is </h5>
+                        <h5 class="col-md-6">Standard Deviation = 1.436</h5>
+						<!-- <h5 class="col-md-6"></h5> -->
+						<!-- <h5 class="col-md-6"></h5> -->
+
+                        <h5 class="col-md-6">You currently reside in the Blank Percentile</h5>
+						<h5 class="col-md-6"></h5>
+
+                        <h5 class="col-md-6"></h5>
+                    </div>
+					
+					<div class="col-md-12" style="height:20px;"></div>
+
+
+
+
+<div>
+</div>
+
+
+</div>
+<!-- Consitency Analysis portion of the page -->
+<!-- Consitency Analysis portion of the page -->
+<!-- Consitency Analysis portion of the page -->
+
+
+<h2 class="sub-header text-center initialHidden clickHeader" onclick="myFunction2()" id="consistHeader"> Consistency Analysis<span style=" text-indent: 10%;" class="glyphicon glyphicon-collapse-down"></h2>
+<div id="analysisDiv" class="initialHidden">
+<div class="col-md-10  text-center">
+			<h2>Analysis</h2>
+		<h5 id="sendAnalysisHigh" >Highest average monthly GHI: </h5>
+		<h5 id="sendAnalysisLow" >Lowhest average monthly GHI: </h5>
+		<h5 id="sendAnalysis4MonthHigh">Highest (4 month period) average monthly GHI: </h5>
+		<h5 id="sendAnalysis4MonthLow" >Lowhest (4 month period) average monthly GHI: </h5>
+		<h5 id="sendBottom4Months">Highest 4 months average monthly GHI: </h5>
+		<h5 id="sendTop4Months" >Lowhest 4 months average monthly GHI: </h5>
+
+		<div></div>
+		<h5 id="mbmGhiJan">Average GHI: </h5>
+		</div>
+</div>
+
+</div>
+
+
+<!-- END OF Consistency ANALYSIS -->
+<!-- END OF Consistency ANALYSIS -->
+<!-- END OF Consistency ANALYSIS -->
+
+
+</div>
+</div>
+</div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+	<!-- Moved up because of other assets -->
+    <script>
+	
+	
+	
+	
+<!--Hiding Functions These are used to hide the detailed view panels-->
+<!--Hiding Functions These are used to hide the detailed view panels-->
+<!--Hiding Functions These are used to hide the detailed view panels-->
+function myFunction() {
+var x = document.getElementById('monthDiv');
+if (x.style.display === 'block') {
+	x.style.display = 'none';
+	document.getElementById("monthlyHeader").style.background = "grey";
+	document.getElementById("monthlyHeader").style.color = "white";
+
+	
+} else {
+
+	x.style.display = 'block';
+	document.getElementById("monthlyHeader").style.background = "white";
+	document.getElementById("monthlyHeader").style.color = "black";
+}
+}
+
+
+function myFunction2() {
+var x = document.getElementById('analysisDiv');
+if (x.style.display === 'block') {
+	x.style.display = 'none';
+	document.getElementById("consistHeader").style.background = "grey";
+	document.getElementById("consistHeader").style.color = "white";
+
+	
+} else {
+
+	x.style.display = 'block';
+	document.getElementById("consistHeader").style.background = "white";
+	document.getElementById("consistHeader").style.color = "black";
+}
+}
+
+
+function myFunctionSB1() {
+var x = document.getElementById('subBox1');
+if (x.style.display === 'none') {
+	x.style.display = 'block';
+	document.getElementById("upBox1").style.background = "white";
+	document.getElementById("upBox1").style.color = "black";
+	
+} else {
+	x.style.display = 'none';
+	document.getElementById("upBox1").style.background = "aliceblue";
+	document.getElementById("upBox1").style.color = "black";
+
+}
+}
+
+
+function myFunctionSB2() {
+var x = document.getElementById('subBox2');
+if (x.style.display === 'none') {
+	x.style.display = 'block';
+	document.getElementById("upBox2").style.background = "white";
+	document.getElementById("upBox2").style.color = "black";				
+
+} else {
+	x.style.display = 'none';
+	document.getElementById("upBox2").style.background = "aliceblue";
+	document.getElementById("upBox2").style.color = "black";
+
+}
+}
+
+function myFunctionSB3() {
+var x = document.getElementById('subBox3');
+if (x.style.display === 'none') {
+	x.style.display = 'block';
+	document.getElementById("upBox3").style.background = "white";
+	document.getElementById("upBox3").style.color = "black";
+	
+	
+	
+} else {
+	x.style.display = 'none';
+	document.getElementById("upBox3").style.background = "aliceblue";
+	document.getElementById("upBox3").style.color = "black";
+
+}
+}
+
+function myFunctionSB4() {
+var xa = document.getElementById("subBox4");
+if (xa.style.display === 'none') {
+	xa.style.display = 'block';
+	document.getElementById("upBox4").style.background = "white";
+	document.getElementById("upBox4").style.color = "black";
+
+	
+} else {
+	xa.style.display = 'none';
+	document.getElementById("upBox4").style.background = "aliceblue";
+	document.getElementById("upBox4").style.color = "black";
+}
+}	
+
+
+
+
+<!--END Hiding Functions These are used to hide the detailed view panels-->
+
+
+
+
+
+
+//Function LOOP
+//LOCATION GETTER		
+//LOCATION GETTER		
+//LOCATION GETTER		
+$.getJSON("https://ipapi.co/json",function(jd){
+<!-- This function starts by getting a geo location based on ip address. -->
+	city = jd.city;
+	ip = jd.ip;
+	region = jd.region;
+	country = jd.country_name;
+	lat = jd.latitude;
+	lon = jd.longitude;
+	<!-- Sends Proof that all essential location attributes have been made into values -->
+	console.log("City = " + city + "  Country = " + country + "   Coordinates = " + lat + "," + lon);
+	document.getElementById("sendLocation").innerHTML ="Country: " + country;
+	document.getElementById("sendLocation1").innerHTML ="Country: " + country;
+	document.getElementById("sendLocation2").innerHTML = "City: " + city;
+	document.getElementById("sendLocation3").innerHTML = "Co-ordinates:                                                        ";
+	document.getElementById("sendLocation4").innerHTML = "lat:  " + lat;
+	document.getElementById("sendLocation4").innerHTML += ", long: " + lon;
+
+	<!-- $('#sendLocation').text("City: " + city + "<br /> Country: " + country + "<br /> Co-ordinates: lat:  " + lat + ", long: " + lon) -->
+	
+//Round Lat
+//Round Long
+//Lat -90 Lon -180 = 0
+//Lat -89 Lon -180 = 360
+//Lat -88 Lon -180 = 720
+//Formula array # = ((Lat + 90) * 360) + Lon + 180
+//Lat 89 = 179
+	roundLat = Math.floor(lat); // rounds down
+	roundLon = Math.floor(lon); // rounds down
+	<!-- Taken from the source excel sheet - nasa ghi 2008 -->
+	ghiAnnMax = 6.98;
+	ghiAnnAvg = 3.9429875;
+	ghiAnnMedian = 3.52;
+
+	arrayNumber = ((roundLat + 90)*360) + roundLon + 180;
+	console.log(arrayNumber); //works - This is the array entry to fetch
+	
+	
+//Feed into API/JSON
+// Call Array #, assign monthly and annual values to variables	
+   <!-- $.getJSON('array json version.json', function(data) { -->
+       <!-- newLat = data[arrayNumber][0]; -->
+	   <!-- console.log("newLat = " + newLat); -->
+
+
+   $.getJSON('https://raw.githubusercontent.com/saifsm1994/SolarKeystone/master/array%20json%20version.json', function(data) {
+       answerArray = data[arrayNumber];
+	   console.log(answerArray);
+	   
+	   <!-- This gets the data from the Ghi Array -->
+	   newLat = data[arrayNumber][0];
+	   newLon = data[arrayNumber][1]; 
+	   ghiJan = data[arrayNumber][2]; 
+	   ghiFeb = data[arrayNumber][3]; 
+	   ghiMar = data[arrayNumber][4];
+	   ghiApr = data[arrayNumber][5]; 
+	   ghiMay = data[arrayNumber][6]; 
+	   ghiJun = data[arrayNumber][7];	
+	   ghiJul = data[arrayNumber][8];	
+	   ghiAug = data[arrayNumber][9];	
+	   ghiSep = data[arrayNumber][10];
+	   ghiOct = data[arrayNumber][11];
+	   ghiNov = data[arrayNumber][12];
+	   ghiDec = data[arrayNumber][13];
+	   ghiAnn = data[arrayNumber][14];
+	   
+	   document.getElementById("mbmGhiJan").innerHTML += " " + ghiJan;
+	   document.getElementById("mbmGhiFeb").innerHTML += " " + ghiFeb;
+	   document.getElementById("mbmGhiMar").innerHTML += " " + ghiMar;
+	   document.getElementById("mbmGhiApr").innerHTML += " " + ghiApr;
+	   document.getElementById("mbmGhiMay").innerHTML += " " + ghiMay;
+	   document.getElementById("mbmGhiJun").innerHTML += " " + ghiJun;
+	   document.getElementById("mbmGhiJul").innerHTML += " " + ghiJul;
+	   document.getElementById("mbmGhiAug").innerHTML += " " + ghiAug;
+	   document.getElementById("mbmGhiSep").innerHTML += " " + ghiSep;
+	   document.getElementById("mbmGhiOct").innerHTML += " " + ghiOct;
+	   document.getElementById("mbmGhiNov").innerHTML += " " + ghiNov;
+	   document.getElementById("mbmGhiDec").innerHTML += " " + ghiDec;
+
+
+	   
+<!-- Subjective Values are assigned for highest and lowest values -->
+<!-- Global -->
+		averageGhi = 	3.9429875;
+		stDevGhi  =	1.436094329;
+		<!-- Location only -->
+		stDeviation = (ghiAnn-averageGhi)/stDevGhi;
+		stDRound = stDeviation.toFixed(3);
+		
+<!-- Comparative Function, tell standard deviations -->
+		if( stDeviation > 0){
+		document.getElementById("howmanystds").innerHTML +=" " + stDRound + " standard deviations above the mean";}else {
+		document.getElementById("howmanystds").innerHTML +=" " + stDRound + " standard deviations below the mean";}
+
+<!-- Functin Potential circle 4, tell how much potential exists -->
+<!-- NEED JUSTIFICATION FOR THIS - IN PROGRESS  -->
+		
+if(stDeviation < -2){
+	
+	document.getElementById("sendPotential").innerHTML = "Almost None";
+
+}else if (stDeviation < -1){
+	document.getElementById("sendPotential").innerHTML = "Very Low";
+
+}else if (stDeviation < -0.5){
+	document.getElementById("sendPotential").innerHTML = "Low";
+	
+}else if (stDeviation < 0){
+	document.getElementById("sendPotential").innerHTML = "Slightly Below Average";
+	
+}else if (stDeviation < 0.5){
+	document.getElementById("sendPotential").innerHTML = "Average";
+	
+}else if (stDeviation < 0.75){
+	document.getElementById("sendPotential").innerHTML = "Above Average";
+	
+}else if (stDeviation<1){
+	document.getElementById("sendPotential").innerHTML = "High";
+	
+	
+}else if (stDeviation < 2){
+			document.getElementById("sendPotential").innerHTML = "Very High";
+
+}else{
+	document.getElementById("sendPotential").innerHTML = "Incredibly High";
+
+};
+	
+<!-- General use variables	 -->
+<!-- Highest of the given Values -->
+	   highest = Math.max(ghiJan,ghiFeb,ghiMar,ghiApr,ghiMay,ghiJun,ghiJul,ghiAug,ghiSep,ghiOct,ghiNov,ghiDec);
+	   console.log("highest =" + highest);
+	   
+<!-- Lowest of the given Values -->
+	   lowest = Math.min(ghiJan,ghiFeb,ghiMar,ghiApr,ghiMay,ghiJun,ghiJul,ghiAug,ghiSep,ghiOct,ghiNov,ghiDec);
+	   console.log("lowest =" + lowest);
+	   
+<!-- Total GHI recieved annually -->
+	   total =  (ghiJan + ghiFeb + ghiMar + ghiApr + ghiMay + ghiJun + ghiJul + ghiAug + ghiSep + ghiOct + ghiNov + ghiDec).toFixed(3);
+	   <!-- console.log(data); -->
+	   console.log("newLat = " + newLat);
+	   console.log("GHI Annual = " + ghiAnn);
+<!-- END General use variables	 -->
+
+
+	   	
+<!-- Fill second data box for GHI data  -->
+		$('#sendGhi').text(ghiAnn);
+		document.getElementById("sendGHI").innerHTML += " " + ghiAnn;
+		document.getElementById("sendGHI1").innerHTML += " " + highest;
+		document.getElementById("sendGHI3").innerHTML += " " + lowest;
+		<!-- document.getElementById("sendGHI2").innerHTML += ":  " + total; -->
+		document.getElementById("sendGHI4").innerHTML += ": " + ghiAnnMedian;
+		document.getElementById("sendGHI5").innerHTML += ":  " + ghiAnnMax;
+		
+<!-- END Fill second data box for GHI data  -->
+
+<!-- Fill third data COMPGHI box for GHI data  -->
+		ghiCompAnn = ((ghiAnn/ghiAnnMax) *100).toFixed(1);
+		<!-- ghiCompAnn = ghiCompAnn * 100; -->
+		$('#sendCompGhi').text(ghiCompAnn + "%");
+		document.getElementById("sendCompGhi2").innerHTML += ":  " + ghiCompAnn + "%";
+		ghiCompAnnMedian = ((ghiAnn/ghiAnnMedian) *100).toFixed(1);
+		document.getElementById("sendCompGhi4").innerHTML += ":  " + ghiCompAnnMedian + "%";
+<!-- END Fill third data COMPGHI box for GHI data  -->
+
+
+
+<!-- SendMonthByMonth -->
+<!-- SendMonthByMonth -->
+<!-- SendMonthByMonth --><!-- SendMonthByMonth --> -->
+
+		
+		sJan = Math.round((ghiJan/total) * 100);
+		document.getElementById("sendJan").innerHTML += sJan + "%";
+
+		sFeb = Math.round((ghiFeb/total) * 100);
+		console.log(sFeb);
+		document.getElementById("sendFeb").innerHTML += sFeb + "%";
+		
+		sMar = Math.round((ghiMar/total) * 100);
+		document.getElementById("sendMar").innerHTML += sMar + "%";
+		sApr = Math.round((ghiApr/total) * 100);
+		document.getElementById("sendApr").innerHTML += sApr + "%";
+		sMay = Math.round((ghiMay/total) * 100);
+		document.getElementById("sendMay").innerHTML += sMay + "%";
+		sJun = Math.round((ghiJun/total) * 100);
+		document.getElementById("sendJun").innerHTML += sJun + "%";
+		sJul = Math.round((ghiJul/total) * 100);
+		document.getElementById("sendJul").innerHTML += sJul + "%";
+		sAug = Math.round((ghiAug/total) * 100);
+		document.getElementById("sendAug").innerHTML += sAug + "%";
+		sSep = Math.round((ghiSep/total) * 100);
+		document.getElementById("sendSep").innerHTML += sSep + "%";
+		sOct = Math.round((ghiOct/total) * 100);
+		document.getElementById("sendOct").innerHTML += sOct + "%";
+		sNov = Math.round((ghiNov/total) * 100);
+		document.getElementById("sendNov").innerHTML += sNov + "%";
+		sDec = Math.round((ghiDec/total) * 100);
+		document.getElementById("sendDec").innerHTML += sDec + "%";
+
+<!-- END SendMonthByMonth -->
+
+<!-- Send Consistency Data -->
+<!-- Send Consistency Data -->
+<!-- Highest average monthly GHI: -->
+
+
+<!-- Lowhest average monthly GHI: -->
+
+<!-- Highest (4 month period) average monthly GHI: -->
+	<!-- Highest of the given Values -->
+	var arrayGhi2=[ghiJan,ghiFeb,ghiMar,ghiApr,ghiMay,ghiJun,ghiJul,ghiAug,ghiSep,ghiOct,ghiNov,ghiDec];
+	arrayGhi2.sort(compareNumbers);
+	console.log("arrayghitester   " + arrayGhi2[1]);
+	<!-- var arrayGhiHigh = []; -->
+	
+	function compareNumbers(a, b)
+{
+    return a - b;
+}
+	
+	<!-- arrayGhiHigh = arrayGhi2.sort(compareNumbers); -->
+	
+	<!-- for(i = 0; i < 12; i++){ -->
+	 <!-- arrayGhiHigh[i] = Math.max(arrayGhi2); -->
+	 <!-- }; -->
+	 	console.log("arrayghitester   " + arrayGhi2[11]);
+arrayGhi2AVGHIGH = arrayGhi2[0] +arrayGhi2[1] +arrayGhi2[2] +arrayGhi2[3];
+arrayGhi2AVGHIGH = arrayGhi2AVGHIGH/4;
+document.getElementById("sendAnalysis4MonthLow").innerHTML += arrayGhi2AVGHIGH;
+document.getElementById("sendBottom4Months").innerHTML += "  [  " + arrayGhi2[0] +"  ,  ";
+document.getElementById("sendBottom4Months").innerHTML += arrayGhi2[1] +"  ,  ";
+document.getElementById("sendBottom4Months").innerHTML += arrayGhi2[2] +"  ,  ";
+document.getElementById("sendBottom4Months").innerHTML +=arrayGhi2[3] +" ]";
+
+
+	 
+arrayGhi2AVGLOW = arrayGhi2[8] +arrayGhi2[9] +arrayGhi2[10] +arrayGhi2[11];
+arrayGhi2AVGLOW = arrayGhi2AVGLOW/4;
+document.getElementById("sendAnalysis4MonthHigh").innerHTML +=arrayGhi2AVGLOW;
+document.getElementById("sendTop4Months").innerHTML +=  "  [  " + arrayGhi2[8] +"  ,  ";
+document.getElementById("sendTop4Months").innerHTML +=arrayGhi2[9] +"  ,  ";
+document.getElementById("sendTop4Months").innerHTML += arrayGhi2[10] +"  ,  ";
+document.getElementById("sendTop4Months").innerHTML += arrayGhi2[11] +" ]";
+	
+
+	   
+<!-- Lowhest (4 month period) average monthly GHI: -->
+	<!-- Lowest of the given Values -->
+	   <!-- lowest = Math.min(ghiJan,ghiFeb,ghiMar,ghiApr,ghiMay,ghiJun,ghiJul,ghiAug,ghiSep,ghiOct,ghiNov,ghiDec); -->
+	   <!-- console.log("lowest =" + lowest); -->
+<!-- Average GHI: -->
+						  							console.log("testing morris inputs" + ghiJan);
+
+			new Morris.Line({
+			  // ID of the element in which to draw the chart.
+			  element: 'myfirstchart',
+			  // Chart data records -- each entry in this array corresponds to a point on
+			  // the chart.
+			  parseTime: false,
+			  resize: true,
+			  data: [
+				{ month: 'January', value: ghiJan },
+				{ month: 'Febuary', value: ghiFeb },
+				{ month: 'March', value: ghiMar },
+				{ month: 'April', value: ghiApr },
+				{ month: 'May', value: ghiMay },
+				{ month: 'June', value: ghiJun },
+				{ month: 'July', value: ghiJul },
+				{ month: 'August', value: ghiAug },
+				{ month: 'September', value: ghiSep },
+				{ month: 'October', value: ghiOct },
+				{ month: 'November', value: ghiNov },
+				{ month: 'December', value: ghiDec }
+			  ],
+			  // The name of the data record attribute that contains x-values.
+			  xkey: 'month',
+			  // A list of names of data record attributes that contain y-values.
+			  ykeys: ['value'],
+			  // Labels for the ykeys -- will be displayed when you hover over the
+			  // chart.
+			  labels: ['GHI']
+			});
+			<!-- New Morris Line end -->
+						
+						<!-- new Morris.Line({ -->
+  <!-- // ID of the element in which to draw the chart. -->
+  <!-- element: 'myfirstchart', -->
+  <!-- // Chart data records -- each entry in this array corresponds to a point on -->
+  <!-- // the chart. -->
+  <!-- data: [ -->
+    <!-- { year: '2008', value: 20 }, -->
+    <!-- { year: '2009', value: 10 }, -->
+    <!-- { year: '2010', value: 5 }, -->
+    <!-- { year: '2011', value: 5 }, -->
+    <!-- { year: '2012', value: 20 } -->
+  <!-- ], -->
+  <!-- // The name of the data record attribute that contains x-values. -->
+  <!-- xkey: 'year', -->
+  <!-- // A list of names of data record attributes that contain y-values. -->
+  <!-- ykeys: ['value'], -->
+  <!-- // Labels for the ykeys -- will be displayed when you hover over the -->
+  <!-- // chart. -->
+  <!-- labels: ['Value'] -->
+<!-- }); -->
+
+<!-- morris test end -->
+
+
+   });
+   
+   })
+		
+        </script>
+</body>
+</html>

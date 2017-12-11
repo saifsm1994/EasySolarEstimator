@@ -1,0 +1,549 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Solar Potential in other regions</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Estimates the viability of using solar power and provides preliminary cost estimates for energy-connected Solar Photovoltaic (PV) energy systems around the world. Helps residential scale users and homeowners determine whether it is worth looking into installing solar PV systems">
+  <meta name="keywords" content="solar estimator, solar calculators, Solar system,Solar panels,renewable energy, viability of solar power, simplified, easy, eli5">
+  <meta name="author" content="Saif Mustafa">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
+    <!-- Bootstrap core CSS -->
+
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="dashboard.css" rel="stylesheet">
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
+    <link rel="stylesheet" href="assets\js\morris.js-0.5.1\morris.css">
+    <script src="assets/js/raphael.min.js"></script>
+    <script src="assets/js/morris.js-0.5.1/morris.js"></script>
+    <script src="engineCodeMain.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcHJvV8eqa4aFxlTUjqr5erjS9YbdVakQ"></script>
+
+    
+    
+
+    <script>
+        $(function() {
+            $("#sidebar").load("sidebar.html");
+            $("#navbar").load("navbar.html");
+            $("#footer").load("footer.html");
+            loadMapper();
+
+//            geoLocater1()
+        });
+
+    </script>
+</head>
+<style>
+    .subBox {
+        display: none;
+    }
+
+    .ct-series-a .ct-slice-pie {
+        /* fill of the pie slieces */
+        fill: hsl(120, 40%, 60%);
+        /* give your pie slices some outline or separate them visually by using the background color here */
+        stroke: white;
+        /* outline width */
+        stroke-width: 4px;
+    }
+
+    .initialHidden {
+        display: none;
+    }
+
+    .placeholder {
+        background: AliceBlue;
+    }
+
+    .clickHeader {
+        background: grey;
+        color: white;
+    }
+
+
+
+    .circle {
+        /*        max-width:45%;
+        max-height:45%;
+        185px*/
+        width: 25rem;;
+        height: 25rem;
+        border-radius: 50%;
+
+        font-size: 2.45rem;
+        color: #000;
+        line-height: 25rem;
+        text-align: center;
+        font-weight: bold;
+        cursor: pointer;
+        cursor: hand;
+        margin: auto;
+        padding-bottom: 10px;
+        word-wrap: break-word;
+        overflow: hidden;
+        border-right: solid;
+
+        
+/*        font-size: 5*/
+    }
+
+
+    .boldme {
+        font-weight: bold;
+        padding-bottom: 5px;
+        text-overflow: hidden;
+    }
+
+    .tooltip {}
+
+    .tooltip2 .tooltiptext {
+        visibility: hidden;
+        width: 20vw;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        /* Position the tooltip */
+        position: absolute;
+        z-index: 2;
+        margin-left: -10vw;
+    }
+
+    .tooltip2:hover .tooltiptext {
+        visibility: visible;
+    }
+
+    .circle:hover .tooltiptext {
+        visibility: visible;
+    }
+
+</style>
+
+<body>
+    <div id="navbar"></div>
+    <div class="row"  style="max-width: 2000px;">
+        <div id="sidebar"  class="col-sm-2 col-md-2"></div>
+        <div class="col-xs-10 col-sm-10 col-md-10  main text-center" id="bodyOfThePage">
+            <h1 class="page-header">Solar Compatability Dashboard</h1>
+
+           
+            <div id="mapHolder" class="row placeholders" style="background: aliceblue;">
+            <div class="" align="Center">        <div id="map" >maphere</div>
+
+            <button type="button" class="btn btn-info bluebuttonsmall" data-toggle="collapse" data-target="#map">Toggle Map</button>                </div>
+                
+                
+                
+            </div>
+
+           
+           
+            <div class="row placeholders" style="background: aliceblue;">
+<!--            //input custom lat and lon here-->
+                <div class="col-sm-5 col-xs-9" align="right"><h4>New Latitude:</h4> <input type="text" name="Latitude" placeholder="-90 to +90" id="latInput"  onkeydown="search(this)"></div>
+                
+                
+<!--                <div class="col-xs-1"><br></div>-->
+                <div class="col-sm-6 col-xs-9" align="left">
+                
+                <div class="col-sm-4 col-xs-9" align="left"><h4>New Longitude:</h4> <input type="text" name="Longitude" placeholder="-179 to +179" id="lonInput"  onkeydown="search(this)">
+                </div>
+                
+                
+                 <div class="col-sm-2 col-sm-offset-2" align="right">
+              <button style="margin-top: 10px; font-size: 15px;" onclick="viableCoordsTester()" class="bluebutton">Press to Update with new coordinates</button>
+                  
+                 </div>
+                 
+                 
+                 <div class="col-sm-3 col-sm-offset-1" align="right">
+                  
+            <div class="col">
+                <button style="margin-top: 10px; margin-left:5px;" class="bluebuttonsmall" onclick="locationPreset2(25.27,55.29)">Dubai <span class="glyphicon glyphicon-search"></span> </button><br>
+                <button style="margin-top: 2px; margin-left:5px" class="bluebuttonsmall" onclick="locationPreset2(40.7,-73.9)">New York <span class="glyphicon glyphicon-search"></span>
+                </button><br>
+                <button style="margin-top: 2px; margin-left:5px" class="bluebuttonsmall" onclick="locationPreset2(51.5,-0.118)">London <span class="glyphicon glyphicon-search"></span> </button>
+                </div>    
+                
+                
+<!--
+                    <h3 class="tooltip2">&#9432;
+                    <span class="tooltiptext" style="font-size: 13px;">Try<br>Dubai: 25.2, 55.27   <br> New York: 40.7, 74.0  <br> London: 51.5, 0.12  <br></span></h3>
+-->
+                </div>
+                </div>
+                
+                
+            
+            </div>
+                                 
+            <div class="row placeholders" style="background: aliceblue;">
+                <!--Circle 1 Location           -->
+                <div class="col-xs-6 col-sm-3 placeholder" id="upBox1" onclick="myFunctionSB1()">
+                    <div class="tooltip2">
+                    <div class="circle upperBox" id="sendadminAreaLong" style=" word-wrap: break-word; background: lightblue;">Location</div>
+                    <h4 class="boldme" id="sendCountryFull">Location</h4>
+                    <span class="text-muted">Location<br>[Accuracy 100 km]</span>
+                    
+                    <span class="tooltiptext">Country: <span id="sendCountryHover"></span>
+                        <br> Latitude: <span id="sendLatHover"></span>
+                        <br> Longitude: <span id="sendLonHover"></span></span>
+                    </div>
+                    <div class="tooltip2">
+                    <h3>&#9432;</h3>
+                    <span class="tooltiptext">Note, this will remain unchanged if the coordinates do not correspond to a city or country(e.g: international waters)</span>
+                    </div>
+                </div>
+
+                <!--Circle 2 GHI Value           -->
+                <div class="col-xs-6 col-sm-3 placeholder" id="upBox2" onclick="myFunctionSB2()">
+                    <div class="tooltip2">
+                        <div class="circle upperBox" id="sendGhi" style="  background: gold;">Average Annual GHI</div>
+                        <h4 class="boldme">How much Sunlight do you get?</h4>
+                        <span class="text-muted">(Global Horizontal Irradience)</span>
+                        <span class="text-muted">kWh/m<sup>2</sup>/Day</span>
+                        <span class="tooltiptext">Average Daily Sunlight<br>
+                        
+                        Total Yearly GHI: <span id="sendGrossAnnualGhiTooltip"></span>
+                        <br>Average Daily GHI: <span id="sendAnnualGhiTooltip"></span>
+                        <br> Monthly Averages<br> Highest Daily GHI: <span id="sendMaxMonthGhiTooltip"></span>
+                        <br> Lowest Daily GHI: <span id="sendMinMonthGhiTooltip"></span></span>
+                    </div>
+                </div>
+
+                <!--Circle 3 Comparitive GHI          -->
+
+                <div class="col-xs-6 col-sm-3 placeholder" id="upBox3" onclick="myFunctionSB3()">
+
+                    <div class="tooltip2">
+                        <div class="circle upperBox" id="sendCompGhi" style="  background: plum;">Comparitive GHI</div>
+                        <h4 class="boldme">RHow does this compare to the Sunniest place on earth?</h4>
+                        <span class="text-muted">Compared to Highest Global GHI</span>
+
+                        <span class="tooltiptext">Compared to other places in the world<br>  <br>
+                        
+                        The global median GHI is: <span id="sendMedianAnnualGHI"></span>
+                         kWh/m<sup>2</sup>/day<br> Compared to that you get: <span style="color: red;" id="sendRelativeToMedian"></span> as much power
+                        <br> <br>The global highest GHI is: <span id="sendGlobalMaximumAnnualGHI" style="color: red;"></span> kWh/m<sup>2</sup>/day
+                        <br> Compared to that you get:: <span id="sendRelativeToGlobalMax"></span> as much power
+                        <br> </span>
+                    </div>
+                </div>
+
+                <!--Circle 4 Relative Potential          -->
+
+                <div class="col-xs-6 col-sm-3 placeholder" id="upBox4" onclick="myFunctionSB4()">
+
+                    <div class="tooltip2">
+                       
+                        <div class="circle upperBox" id="sendLevelOfSolarPowerPotential" style=" overflow:hidden; word-wrap:break-word; background: brown; color: white;">Potential for Solar power</div>
+                        
+                        <h4 class="boldme">Relative potential for Solar power</h4>
+
+                        <span class="text-muted"></span>
+
+                        <span class="tooltiptext">Mean Annual Global GHI: <span id="sendGlobalMean"></span>
+
+                        <br> Global Standard Deviation: <span id="sendStDev"></span>
+
+                        <br> You are currently <span id="sendDevsFromMean"></span>
+                        <br> </span>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <!--Second Row-->
+
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-xs-offset-3 col-md-offset-2 main text-center" id="secondRow">
+
+            <!--JUMBOTRON-->
+            <div class="col-xs-12 col-sm-6 col-md-9 col-md-offset-2 placeholder" id="upBoxJumbo">
+                    <div class="tooltip2">
+                    
+                <div class="circlebig upperBoxbig" id="sendNetGHI" style="  background: brown; font-size: 30px;">Attainable Solar Power</div>
+                <h4 class="boldme">How much power might you expect?</h4>
+                <a href="systemDetails.html"><h4 class="boldme">Capturable solar power with a 330W 16.9% efficent panel of area 2m x 1m</h4></a>
+               
+
+                
+                <span class="text-muted"></span>
+                
+                <span class="tooltiptext">Costs before taxes/credits/subsidies
+                <br>Cost of this system: $ <span id="sendDailyCost"></span>
+                
+                <br>Cost per kWh If you run the panel for 1 year: $ <span id="sendyear1cost"></span><br>
+                
+                Cost per kWh If you run the panel for 10 years: $ <span  id="sendyear10cost"></span> <br>
+                
+                Cost per kWh If you run the panel for 20 years: $ <span id="sendyear20cost"></span><br>
+                
+               Click for more details </span>
+                
+                </div>
+                             <div  class="tooltip2"><h4> What does this mean?</h4>
+                
+                <span class="tooltiptext" style="text-align: left;">
+                    This much power can:<br>
+                        Run a 50 inch LED television set for <span  class="boldme" style="color: red;" id="sendTvHours"> hours</span><br>
+                
+                        Power a 1500 Watt space heater for <span id="send1000WHeaterHours"  class="boldme" style="color: red;"> hours</span><br>
+                        
+                        Percentage of an average household's annual needs: <span  id="sendAverageHomePercent"  class="boldme" style="color: red;">% </span> <br>
+
+                </span>
+                                </div>    
+            </div>
+
+        </div>
+        
+         <div class="col-xs-8 col-sm-9 col-xs-offset-3 col-sm-offset-3 col-md-10 col-md-offset-2 main text-center">
+               
+                               <!--Month by  Month Panels here-->
+                <div>
+                    <h2 class="sub-header text-center clickHeader" id="monthlyHeader">Month By Month Breakdown</h2>
+                </div>
+
+                <div class="spacer col-md-12 text-center" style="margin-left: 8%; margin-bottom: 10px;">
+                    <h4 class="col-md-10 text-capitalize" style="padding-bottom:10px;">Percentage of Annual Solar Power ( GHI) recived per month</h4>
+                </div>
+
+
+                <div style="margin-left: 8%; margin-bottom: 10px;">
+
+                    <div class="col-md-3 bg-primary text-center">
+                        <h2>January</h2>
+                        <h4 style ="text-align: left;" id="">Portion of annual GHI:    <span  id="sendJan"></span> </h4>
+                        <div></div>
+                        <h4  style ="text-align: left;" id="">Average GHI: <span id="mbmGhiJan"></span></h4>
+                        <div></div>
+                        <h4  style ="text-align: left;" id="">330W panel Output:  <span id="pwoJan"></span></h4>
+                    </div>
+
+                    <div class="col-md-1"></div>
+                    <div class="col-md-3 bg-primary text-center">
+                        <h2>Febuary</h2>
+                        <h4 style ="text-align: left;"  id="">Portion of annual GHI: <span id="sendFeb"></span>  </h4>
+                        <div></div>
+                        <h4  style ="text-align: left;" id="">Average GHI: <span id="mbmGhiFeb"></span></h4>
+                        <div></div>
+                        <h4  style ="text-align: left;" id="">330W panel Output:  <span id="pwoFeb"></span></h4>
+                        </div>
+                        
+                    <div class="col-md-1"></div>
+                    <!--Spacer-->
+                    <div class="col-md-3 bg-primary text-center">
+                        <h2>March</h2>
+                        <h4 style ="text-align: left;"   id="">Portion of annual GHI:     <span  id="sendMar"></span> </h4>
+                        <div></div>
+                        <h4 style ="text-align: left;"  id="">Average GHI:     <span  id="mbmGhiMar"></span> </h4>
+                        <div></div>
+                        <h4 style ="text-align: left;"  id="">330W panel Output:      <span  id="pwoMar"></span> </h4>  
+                    </div>
+                    
+                    <div class="clearfix clear-columns"></div>
+                    <div class="col-md-12" style="height:20px;"></div>
+                    <!--Bigger Spacer full row-->
+                    <div class="col-md-3 bg-primary text-center">
+                        <h2>April</h2>
+                        <h4 style ="text-align: left;"   id="">Portion of annual GHI:  <span id="sendApr"></span></h4>
+                        <div></div>
+                        <h4 style ="text-align: left;"   id="">Average GHI:  <span id="mbmGhiApr"></span></h4>
+                        <div></div>
+                        <h4 style ="text-align: left;"   id="">330W panel Output:   <span id="pwoApr"></span></h4>  
+                    </div>
+                    
+                    <div class="col-md-1"></div>
+                    <!--Spacer-->
+                    <div class="col-md-3 bg-primary text-center">
+                        <h2>May</h2>
+                        <h4 style ="text-align: left;"   id="">Portion of annual GHI:  <span id="sendMay"></span></h4>
+                        <div></div>
+                        <h4 style ="text-align: left;"   id="">Average GHI:  <span id="mbmGhiMay"></span></h4>
+                        <div></div>
+                        <h4 style ="text-align: left;"   id="">330W panel Output:   <span id="pwoMay"></span></h4> 
+                    </div>
+                    
+                    <div class="col-md-1"></div>
+                    <!--Spacer-->
+                    <div class="col-md-3 bg-primary text-center">
+                        <h2>June</h2>
+                        <h4 style ="text-align: left;"   id="">Portion of annual GHI:  <span id="sendJun"></span></h4>
+                        <div></div>
+                        <h4 style ="text-align: left;"   id="">Average GHI:  <span id="mbmGhiJun"></span></h4>
+                        <div></div>
+                        <h4 style ="text-align: left;"   id="">330W panel Output:   <span id="pwoJun"></span></h4>  
+                    </div>
+                    
+                    <div class="clearfix clear-columns"></div>
+                    <div class="col-md-12" style="height:20px;"></div>
+                    <!--Bigger Spacer full row-->
+                    <div class="col-md-3 bg-primary text-center">
+                        <h2>July</h2>
+                        <h4 style ="text-align: left;"   id="">Portion of annual GHI:  <span id="sendJul"></span></h4>
+                        <div></div>
+                        <h4 style ="text-align: left;"   id="">Average GHI:  <span id="mbmGhiJul"></span></h4>
+                        <div></div>
+                        <h4 style ="text-align: left;"   id="">330W panel Output:   <span id="pwoJul"></span></h4>  
+                    </div>
+                    
+                    <div class="col-md-1"></div>
+                    <div class="col-md-3 bg-primary text-center">
+                        <h2>August</h2>
+                        <h4 style ="text-align: left;"   id="">Portion of annual GHI:  <span id="sendAug"></span></h4>
+                        <div></div>
+                        <h4 style ="text-align: left;"   id="">Average GHI:  <span id="mbmGhiAug"></span></h4>
+                        <div></div>
+                        <h4 style ="text-align: left;"   id="">330W panel Output:   <span id="pwoAug"></span></h4>  
+                    </div>
+                    
+                    <div class="col-md-1"></div>
+                    <!--Spacer-->
+                    <div class="col-md-3 bg-primary text-center">
+                        <h2>September</h2>
+                        <h4 style ="text-align: left;"   id="">Portion of annual GHI:  <span id="sendSep"></span></h4>
+                        <div></div>
+                        <h4 style ="text-align: left;"   id="">Average GHI:  <span id="mbmGhiSep"></span></h4>
+                        <div></div>
+                        <h4 style ="text-align: left;"   id="">330W panel Output:   <span id="pwoSep"></span></h4>  
+                    </div>
+                    
+                    <div class="clearfix clear-columns"></div>
+                    <div class="col-md-12" style="height:20px;"></div>
+                    <!--Bigger Spacer full row-->
+                    <div class="col-md-3 bg-primary text-center">
+                        <h2>October</h2>
+                        <h4 style ="text-align: left;"   id="">Portion of annual GHI:  <span id="sendOct"></span></h4>
+                        <div></div>
+                        <h4 style ="text-align: left;"   id="">Average GHI:  <span id="mbmGhiOct"></span></h4>
+                        <div></div>
+                        <h4 style ="text-align: left;"   id="">330W panel Output:   <span id="pwoOct"></span></h4>  
+                    </div>
+                    
+                    <div class="col-md-1"></div>
+                    <div class="col-md-3 bg-primary text-center">
+                        <h2>November</h2>
+                        <h4 style ="text-align: left;"   id="">Portion of annual GHI:  <span id="sendNov"></span></h4>
+                        <div></div>
+                        <h4 style ="text-align: left;"   id="">Average GHI:  <span id="mbmGhiNov"></span></h4>
+                        <div></div>
+                        <h4 style ="text-align: left;"   id="">330W panel Output:   <span id="pwoNov"></span></h4>  
+                    </div>
+                    
+                    <div class="col-md-1"></div>
+                    <div class="col-md-3 bg-primary text-center">
+                        <h2>December</h2>
+                        <h4 style ="text-align: left;"   id="">Portion of annual GHI:  <span id="sendDec"></span></h4>
+                        <div></div>
+                        <h4 style ="text-align: left;"   id="">Average GHI:  <span id="mbmGhiDec"></span></h4>
+                        <div></div>
+                        <h4 style ="text-align: left;"   id="">330W panel Output:   <span id="pwoDec"></span></h4>  
+                    </div>
+                    
+                </div>
+                    <div class="clearfix clear-columns"></div>
+                    <div class="col-md-12" style="height:20px;"></div>
+
+               
+               
+                <div id="pageHeader">
+                    <h1 style="margin-top:30px; background-color: dimgrey; color: white"> Month by Month GHI Chart</h1>
+                </div>
+                <div id="myfirstchart" style="height: 250px; padding-bottom:20px;"></div>
+                <div class="spacer col-md-12" style="height:20px;"></div>
+                
+                                <!-- Consitency Analysis portion of the page -->
+                <!-- Consitency Analysis portion of the page -->
+                <!-- Consitency Analysis portion of the page -->
+                
+                
+                <div class="spacer col-md-12" style="height:20px;"></div>
+                
+
+                
+
+
+                <h2 style="padding-bottom: 20px;padding-top: 20px; background-color: darkgrey; color: white; border: double;" > Analysis of Consistency</h2>
+                
+                <div class="row" style="background-color: white;">
+                <div class="col-sm-6 text-center">
+                  <label  style="font-size: 20px;" class="label label-success">Highest and Lowest 4 month average GHI</label>
+                  <div id="mysecondchart" ></div>
+                </div>
+                <div class="col-sm-6 text-center">
+                   <label style="font-size: 20px;" class="label label-success">Combined 4 month values</label>
+                  <div id="myThirdChart"></div>
+                </div>
+                </div>
+                
+                                
+                <div class="spacer col-md-12" style="height:20px;"></div>
+                
+                <div class="spacer col-md-12" style="height:20px;"></div>
+                
+                <div id="sendWhatWouldThisMeanYes">
+                <h2 style="padding-bottom: 20px;padding-top: 20px; background-color: darkgrey; color: white; border: double;" >What would this mean?<br></h2>
+                <div class="row" style="background-color: white;">
+                 <div class="boldme text-center" style="margin-right:20%; margin-left:20%;">
+                  <h3 class="boldme text-center" >This data means that if you were to use solar power in this location you would expect there to be a <span id="howBigMtMdifference">HOLDER</span>  difference in output at different times of the year. Such a difference would mean that it would be relatively <span id="needForSecondaryPower">HOLDER</span> to operate without heavily relying upon a secondary power source for less sunny portions of the year</h3>
+                </div>                                
+                </div>  
+                
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main " id="endRow">
+        <div id="footer"></div>
+
+        </div>
+                                        
+                </div>  
+
+
+
+
+
+
+                
+                
+
+
+
+<!--Triggers-->
+    <span id="sendMonthByMonthYes" style="visibility: hidden;"></span>
+
+        </div>
+    </div>
+
+    <!--Triggers-->
+    <span id="sendMeGhiDataYes" style="visibility: hidden;"> true</span>
+    <span id="sendMeGhiDataHoverYes" style="visibility: hidden;"> true</span>
+    <span id="sendMeAveragesComparativeYes" style="visibility: hidden;"> true</span>
+    <!--    //Includes hover-->
+    <span id="isCountryNeededYes" style="visibility: hidden;"></span>
+    <span id="isLatLonSendNeededYes" style="visibility: hidden;"></span>
+    <span id="isInputMapStyleNeededYes" style="visibility: hidden;"></span>
+    <span id="isStDevNeededYes" style="visibility: hidden;"></span>
+    <span id="areCoordsHoverNeededYes" style="visibility: hidden;"></span>
+    <span id="areNetGhiNeededYes" style="visibility: hidden;"></span>
+
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,474 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Solar Potential Comparison</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Estimates the viability of using solar power and provides preliminary cost estimates for energy-connected Solar Photovoltaic (PV) energy systems around the world. Helps residential scale users and homeowners determine whether it is worth looking into installing solar PV systems">
+  <meta name="keywords" content="solar estimator, solar calculators, Solar system,Solar panels,renewable energy, viability of solar power, simplified, easy, eli5">
+  <meta name="author" content="Saif Mustafa">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
+    <!-- Bootstrap core CSS -->
+
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="dashboard.css" rel="stylesheet">
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
+    <link rel="stylesheet" href="assets\js\morris.js-0.5.1\morris.css">
+    <script src="assets/js/raphael.min.js"></script>
+    <script src="assets/js/morris.js-0.5.1/morris.js"></script>
+    <script src="engineCodeSecondaryForComparisonPageOnly.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=apiKeyHere"></script>
+
+
+
+
+    <script>
+        $(function() {
+            //loads the maps and sidebar and navbar - didn't want to manually edit them for each page
+            $("#sidebar").load("sidebar.html");
+            $("#navbar").load("navbar.html");
+            //            geoLocater1()
+            loadMapper();
+            loadMapper2();
+        });
+    </script>
+</head>
+<style>
+    .subBox {
+        display: none;
+    }
+
+    .ct-series-a .ct-slice-pie {
+        /* fill of the pie slieces */
+        fill: hsl(120, 40%, 60%);
+        /* give your pie slices some outline or separate them visually by using the background color here */
+        stroke: white;
+        /* outline width */
+        stroke-width: 4px;
+    }
+
+    .initialHidden {
+        display: none;
+    }
+
+    .placeholder {
+        background: AliceBlue;
+                border-right-color: black;
+        border-right-width:thin;
+        border-left-width:thin;
+        border-right: solid;
+/*        border-left: solid;*/
+    }
+
+    .clickHeader {
+        background: grey;
+        color: white;
+    }
+
+    .circle {
+        /*        max-width:45%;
+        max-height:45%;
+        185px*/
+        width: 18vh;
+        height: 18vh;
+        border-radius: 50%;
+ /*      // <!-- font-size: 18px;
+        -->*/
+        font-size: .7vw;
+        color: #000;
+        line-height: 18vh;
+        text-align: center;
+        font-weight: bold;
+        cursor: pointer;
+        cursor: hand;
+        margin: auto;
+/*        padding-top: 3px;*/
+        margin-bottom: 10px;
+        word-wrap: break-word;
+        margin-top: 10px;
+        overflow: hidden;
+        border-right-color: black;
+        border-right-width:thick;
+        border-right: solid;
+        
+        
+/*        font-size: 5*/
+    }
+
+    .boldme {
+        font-weight: bold;
+        padding-bottom: 5px;
+        text-overflow: hidden;
+    }
+
+    .tooltip {}
+
+    .tooltip2 .tooltiptext {
+        visibility: hidden;
+        width: 20vw;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        /* Position the tooltip */
+        position: absolute;
+        z-index: 2;
+        margin-left: -10vw;
+    }
+
+    .tooltip2:hover .tooltiptext {
+        visibility: visible;
+    }
+
+    .circle:hover .tooltiptext {
+        visibility: visible;
+    }
+</style>
+
+<body>
+    <div id="navbar"></div>
+    <div class="row">
+        <div id="sidebar" class="col-sm-2 col-md-2"></div>
+        <div class="col-sm-10 col-sm-offset-2 col-md-10  main text-center" id="bodyOfThePage">
+            <h1 class="page-header">Solar Potential Comparison</h1>
+            
+                
+                <div id="mapHolder" class="row placeholders" style="background: aliceblue;">
+                
+                <div class="col-sm-5 col-xs-5 col-md-5 col-lg-5" align="left">        <div id="map" >maphere</div>
+
+                <button type="button" class="btn btn-info bluebuttonsmall" id="toogleDeMap" data-toggle="collapse" data-target="#map">Toggle Map 1</button>                
+                </div>
+                
+                <div class="col-sm-5 col-xs-5 col-md-5 col-lg-5 col-sm-offset-1 col-xs-offset-1 col-md-offset-1 col-lg-offset-1" align="right">        <div id="map2" >maphere</div>
+
+                <button type="button" class="btn btn-info bluebuttonsmall" id="toogleDeMap2" data-toggle="collapse" data-target="#map2">Toggle Map 2</button>                
+                </div>
+
+                
+                
+                
+            </div>
+            
+            <h2 style="margin-top:10px; background-color:darkcyan; color:whitesmoke;">Enter Locations Here
+            <span class="tooltip2">&#9432;<span class="tooltiptext" style="font-size: 13px;">Try<br>Dubai: 25.2, 55.27   <br> New York: 40.7, 74.0  <br> London: 51.5, 0.12  <br></span></span>
+            </h2>
+
+
+            <div class="row placeholders  align-items-start" style="background: aliceblue;">
+                <!--            //input custom lat and lon here-->
+            <div class="row">
+            
+            <div class="col-sm-2">
+            <div class="col">
+            <div style="text-align: left; margin-left:20px;">
+                    <div>
+                    <h4 >New Latitude 1:</h4> 
+                    <input type="text" name="Latitude" placeholder="-90 to +90" id="latInput" onkeydown="search(this)">
+                    </div>
+                    
+                    <div>
+                    <h4>New Longitude 1:</h4> 
+                    <input type="text" name="Longitude" placeholder="-179 to +179" id="lonInput" onkeydown="search(this)">
+                    </div>
+                    <br>
+                    
+                    
+                    </div>  
+                      
+<!--            <div class="col-sm-6"></div>    -->
+                </div>    
+                
+            </div>    
+            
+            <div class="col-sm-3">
+            <div class="col">
+                <button onclick="geoLocater1()" style="margin-top: 10px; background: crimson;" class="bluebutton"><span class="glyphicon glyphicon-home"></span> Location Lookup</button>
+<br>
+                <button style="margin-top: 15px" class="bluebutton" onclick="viableCoordsTester()"><span class="glyphicon glyphicon-search"></span> Entered Location Lookup 1</button>
+
+                </div>    
+                
+            </div>  
+            <div class="col-sm-1"></div>
+            <div class="col-sm-2">
+            <div class="col" style="text-align: left; margin-left:20px;">
+                <div>
+                    <h4>New Latitude 2:</h4> <input type="text" name="Latitude" placeholder="-90 to +90" id="latInput2" onkeydown="search2(this)">
+                    </div>
+                    
+                    
+                <div>
+                        <h4>New Longitude 2:</h4> <input type="text" name="Longitude" placeholder="-179 to +179" id="lonInput2" onkeydown="search2(this)">
+                    </div>
+                    
+                </div>    
+            </div>    
+            
+            <div class="col-sm-3">
+            <div class="col">
+
+                <button style="margin-top: 40px" class="bluebutton" onclick="viableCoordsTester2()"><span class="glyphicon glyphicon-search"></span> Entered Location Lookup 2</button>
+                         
+                          
+                </div>    
+                
+            </div>
+                <div class="col-sm-1">
+<!--                //locationPreset-->
+                <div class="col">
+               
+                <button style="margin-top: 14px" class="bluebuttonsmall" onclick="locationPreset2(25.27,55.29)">Dubai<span class="glyphicon glyphicon-search"></span> </button>
+                <button style="margin-top: 1px" class="bluebuttonsmall" onclick="locationPreset2(40.7,-73.9)">New York<span class="glyphicon glyphicon-search"></span> 
+                </button><button style="margin-top: 1px" class="bluebuttonsmall" onclick="locationPreset2(51.5,-0.118)">London<span class="glyphicon glyphicon-search"></span> </button>
+                         
+                          
+                </div>    
+                </div>
+                
+            </div>    
+  
+            
+            </div>
+
+            <div class="row placeholders" style="">
+              
+              
+<!--              background: aliceblue;-->
+               
+               
+                <!--Circle 1 Location           -->
+                <div class="col-xs-6 col-sm-3 placeholder" id="upBox1" onclick="myFunctionSB1()">
+                    <div class="tooltip2">
+                        <div class="circle upperBox" id="sendadminAreaLong" style=" word-wrap: break-word; background: lightblue;">Location</div>
+                        <h4 class="boldme" id="sendCountryFull">Location</h4>
+                        <span class="text-muted">Location<br>[Accuracy 100 km]
+                        </span>
+
+                        <span class="tooltiptext">Country: <span id="sendCountryHover"></span>
+                        <br> Latitude: <span id="sendLatHover"></span>
+                        <br> Longitude: <span id="sendLonHover"></span></span>
+                    </div>
+
+                </div>
+
+
+                <!--Circle 2 GHI Value           -->
+                <div class="col-xs-6 col-sm-3 placeholder" id="upBox2" onclick="myFunctionSB2()">
+                    <div class="tooltip2">
+                        <div class="circle upperBox" id="sendGhi" style="  background: gold;">Average Annual GHI</div>
+                        <h4 class="boldme">Average Daily Sunlight</h4>
+                        <span class="text-muted">(Global Horizontal Irradience)</span>
+                        <span class="text-muted"><br>kWh/m<sup>2</sup>/Day</span>
+                        <span class="tooltiptext">Gross Annual GHI: <span id="sendGrossAnnualGhiTooltip"></span>
+                        <br>Average Annual GHI: <span id="sendAnnualGhiTooltip"></span>
+                        <br> Highest Single Month GHI: <span id="sendMaxMonthGhiTooltip"></span>
+                        <br> Lowest Single Month GHI: <span id="sendMinMonthGhiTooltip"></span></span>
+                    </div>
+                </div>
+                
+                
+                <!--Circle 1b Location           -->
+                <div class="col-xs-6 col-sm-3 placeholder" id="upBox12" onclick="myFunctionSB12()" style="background:  #ffccff;">
+                    <div class="tooltip2">
+                        <div class="circle upperBox" id="sendadminAreaLong2" style=" word-wrap: break-word; background: lightblue;">Location</div>
+                        <h4 class="boldme" id="sendCountryFull2">Location</h4>
+                        <span class="text-muted">Location<br>[Accuracy 100 km]</span>
+
+                        <span class="tooltiptext">Country: <span id="sendCountryHover2"></span>
+                        <br> Latitude: <span id="sendLatHover2"></span>
+                        <br> Longitude: <span id="sendLonHover2"></span></span>
+                    </div>
+
+                </div>
+
+                <!--Circle 2b GHI Value           -->
+                <div class="col-xs-6 col-sm-3 placeholder" id="upBox22" onclick="myFunctionSB22()" style="background:  #ffccff;">
+                    <div class="tooltip2">
+                        <div class="circle upperBox" id="sendGhi2" style="  background: gold;">Average Annual GHI</div>
+                        <h4 class="boldme">Average Daily Sunlight</h4>
+                        <span class="text-muted">(Global Horizontal Irradience)</span>
+                        <span class="text-muted"><br>kWh/m<sup>2</sup>/Day</span>
+                        <span class="tooltiptext">Gross Annual GHI: <span id="sendGrossAnnualGhiTooltip2"></span>
+                        <br>Average Annual GHI: <span id="sendAnnualGhiTooltip2"></span>
+                        <br> Highest Single Month GHI: <span id="sendMaxMonthGhiTooltip2"></span>
+                        <br> Lowest Single Month GHI: <span id="sendMinMonthGhiTooltip2"></span></span>
+                    </div>
+                </div>
+<!--                </div>-->
+
+
+            </div>
+        </div>
+
+       
+    
+       
+        <div class="col-sm-10 col-sm-offset-2 col-md-10 col-md-offset-2 main text-center" id="bodyOfThePage2" style=" max-width: 86vw;">
+            <div class="row placeholders" style="">
+                <!--Circle 3 Comparitive GHI          -->
+
+                <div class="col-xs-6 col-sm-3 placeholder" id="upBox3" onclick="myFunctionSB3()">
+
+                    <div class="tooltip2">
+                        <div class="circle upperBox" id="sendCompGhi" style="  background: plum;">Comparitive GHI</div>
+                        <h4 class="boldme">Relative Sunlight</h4>
+                        <span class="text-muted">Compared to Highest Global GHI</span>
+
+                        <span class="tooltiptext">Global Median Average Annual GHI: <span id="sendMedianAnnualGHI"></span>
+                        <br> Value relative to Global Median: <span id="sendRelativeToMedian"></span>
+                        <br> Global Maximum Average Annual GHI: <span id="sendGlobalMaximumAnnualGHI"></span>
+                        <br> Value relative to Global Median: <span id="sendRelativeToGlobalMax"></span>
+                        <br> </span>
+                    </div>
+                </div>
+
+                <!--Circle 4 Relative Potential          -->
+
+                <div class="col-xs-6 col-sm-3 placeholder" id="upBox4" onclick="myFunctionSB4()">
+
+                    <div class="tooltip2">
+
+                        <div class="circle upperBox" id="sendLevelOfSolarPowerPotential" style=" overflow:hidden; word-wrap:break-word; background: brown;  color: white;">Potential for Solar power</div>
+
+                        <h4 class="boldme">Relative potential for Solar power<br><span style="color:aliceblue;">.</span></h4>
+
+                        <span class="text-muted"></span>
+
+                        <span class="tooltiptext">Mean Annual Global GHI: <span id="sendGlobalMean"></span>
+
+                        <br> Global Standard Deviation: <span id="sendStDev"></span>
+
+                        <br> You are currently <span id="sendDevsFromMean"></span>
+                        <br> </span>
+                    </div>
+                </div>
+                <!--Circle 3b Comparitive GHI          -->
+
+                <div class="col-xs-6 col-sm-3 placeholder" id="upBox32" onclick="myFunctionSB32()" style="background:  #ffccff;">
+
+                    <div class="tooltip2">
+                        <div class="circle upperBox" id="sendCompGhi2" style="  background: plum;">Comparitive GHI</div>
+                        <h4 class="boldme">Relative Sunlight</h4>
+                        <span class="text-muted">Compared to Highest Global GHI</span>
+
+                        <span class="tooltiptext">Global Median Average Annual GHI: <span id="sendMedianAnnualGHI2"></span>
+                        <br> Value relative to Global Median: <span id="sendRelativeToMedian2"></span>
+                        <br> Global Maximum Average Annual GHI: <span id="sendGlobalMaximumAnnualGHI2"></span>
+                        <br> Value relative to Global Median: <span id="sendRelativeToGlobalMax2"></span>
+                        <br> </span>
+                    </div>
+                </div>
+
+                <!--Circle 4b Relative Potential          -->
+
+                <div class="col-xs-6 col-sm-3 placeholder" id="upBox42" onclick="myFunctionSB42()" style="background:  #ffccff;">
+
+                    <div class="tooltip2">
+
+                        <div class="circle upperBox" id="sendLevelOfSolarPowerPotential2" style=" overflow:hidden; word-wrap:break-word; background: brown;  color: white;">Potential for Solar power</div>
+
+                        <h4 class="boldme">Relative potential for Solar power<br><span style="background:#ffccff; color: #ffccff;">.</span></h4>
+
+                        <span class="text-muted"></span>
+
+                        <span class="tooltiptext">Mean Annual Global GHI: <span id="sendGlobalMean2"></span>
+
+                        <br> Global Standard Deviation: <span id="sendStDev2"></span>
+
+                        <br> You are currently <span id="sendDevsFromMean2"></span>
+                        <br> </span>
+                    </div>
+                </div>
+            </div>
+        </div>       
+       
+       
+        <div style="background-color: white; margin-bottom: 5px;margin-top: 5px;"><span style="visibility: hidden;">a</span></div>
+       
+        <div class="col-sm-6 col-sm-offset-1 col-md-6 col-md-offset-1 main text-center" id="secondRow" style="margin-top: 10px;" >
+
+            <!--JUMBOTRON-->
+            <a href="systemDetails.html">
+                <div class="col-xs-6 col-sm-6 col-md-9 col-md-offset-2 placeholder" id="upBoxJumbo" >
+                    <div class="tooltip2">
+
+                        <div class="circlebig upperBoxbig" id="sendNetGHI" style="  background: brown;">Attainable Solar Power</div>
+                        <h4 class="boldme" style="text-align: center;">How much power might you expect?</h4>
+                <a href="systemDetails.html">
+                <h4 class="boldme">Capturable solar power with a 330W 16.9% efficent panel of area 2m x 1m</h4></a>
+                        <span class="text-muted"></span>
+
+                        <span class="tooltiptext">
+                <br>Cost per kWh If you run the panel for 1 year: $ <span id="sendyear1cost"></span><br>
+                
+                Cost per kWh If you run the panel for 10 years: $ <span  id="sendyear10cost"></span> <br>
+                
+                Cost per kWh If you run the panel for 20 years: $ <span id="sendyear20cost"></span><br>
+                
+               Click for more details </span>
+
+                    </div>
+                </div>
+            </a>
+
+        </div>
+        <div id="secondRow2">
+
+            <!--JUMBOTRONb-->
+            <a href="systemDetails.html">
+                <div class="col-xs-4 col-sm-4 col-md-4  placeholder" id="upBoxJumbo2" style="background:  #ffccff;"  style="margin-top: 10px;" >
+                    <div class="tooltip2">
+
+                        <div class="circlebig upperBoxbig" id="sendNetGHI2" style="  background: brown; ">Attainable Solar Power</div>
+                        <h4 class="boldme"  style="text-align: center;">How much power might you expect?</h4>
+                <a href="systemDetails.html">
+                <h4 class="boldme" style="text-align: center;">Capturable solar power with a 330W 16.9% efficent panel of area 2m x 1m</h4></a>
+                        <span class="tooltiptext">
+                
+                <br>Cost per kWh If you run the panel for 1 year: $ <span id="sendyear1cost2"></span><br>
+                
+                Cost per kWh If you run the panel for 10 years: $ <span  id="sendyear10cost2"></span> <br>
+                
+                Cost per kWh If you run the panel for 20 years: $ <span id="sendyear20cost2"></span><br>
+                
+               Click for more details </span>
+
+                    </div>
+                </div>
+            </a>
+
+        </div>
+
+    </div>
+
+    <!--Triggers-->
+    <span id="sendMeGhiDataYes" style="visibility: hidden;"> true</span>
+    <span id="sendMeGhiDataHoverYes" style="visibility: hidden;"> true</span>
+    <span id="sendMeAveragesComparativeYes" style="visibility: hidden;"> true</span>
+    <!--    //Includes hover-->
+    <span id="isCountryNeededYes" style="visibility: hidden;"></span>
+    <span id="isLatLonSendNeededYes" style="visibility: hidden;"></span>
+    <span id="isInputMapStyleNeededYes" style="visibility: hidden;"></span>
+    <span id="isStDevNeededYes" style="visibility: hidden;"></span>
+    <span id="areCoordsHoverNeededYes" style="visibility: hidden;"></span>
+    <span id="areNetGhiNeededYes" style="visibility: hidden;"></span>
+
+
+
+
+
+</body>
+
+</html>

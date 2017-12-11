@@ -1,0 +1,172 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Site Data Operation Breakdown</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Dashboard Template for Bootstrap</title>
+
+
+
+    <!-- Bootstrap core CSS -->
+
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="dashboard.css" rel="stylesheet">
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
+    <link rel="stylesheet" href="assets\js\morris.js-0.5.1\morris.css">
+    <script src="assets/js/raphael.min.js"></script>
+    <script src="assets/js/morris.js-0.5.1/morris.js"></script>
+    <script src="engineCodeMain.js"></script>
+    
+    
+
+    <script>
+        $(function() {
+            $("#sidebar").load("sidebar.html");
+            $("#navbar").load("navbar.html");
+            $("#footer").load("footer.html");
+
+//            geoLocater1()
+        });
+
+    </script>
+</head>
+<style>
+    .subBox {
+        display: none;
+    }
+
+    .ct-series-a .ct-slice-pie {
+        /* fill of the pie slieces */
+        fill: hsl(120, 40%, 60%);
+        /* give your pie slices some outline or separate them visually by using the background color here */
+        stroke: white;
+        /* outline width */
+        stroke-width: 4px;
+    }
+
+    .initialHidden {
+        display: none;
+    }
+
+    .placeholder {
+        background: AliceBlue;
+    }
+
+    .clickHeader {
+        background: grey;
+        color: white;
+    }
+
+    .circle {
+        /*        max-width:45%;
+        max-height:45%;
+        185px*/
+        width: 18vh;
+        height: 18vh;
+        border-radius: 50%;
+        <!-- font-size: 18px;
+        -->font-size: 7vw;
+        max-width:350px;
+        max-height:350px;
+
+        color: #000;
+        line-height: 18vh;
+        text-align: center;
+        font-weight: bold;
+        cursor: pointer;
+        cursor: hand;
+        margin: auto;
+        padding-bottom: 10px;
+        word-wrap: break-word;
+        overflow: hidden;
+    }
+
+    .boldme {
+        font-weight: bold;
+        padding-bottom: 5px;
+        text-overflow: hidden;
+    }
+
+    .tooltip {}
+
+    .tooltip2 .tooltiptext {
+        visibility: hidden;
+        width: 20vw;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        /* Position the tooltip */
+        position: absolute;
+        z-index: 2;
+        margin-left: -10vw;
+    }
+
+    .tooltip2:hover .tooltiptext {
+        visibility: visible;
+    }
+
+    .circle:hover .tooltiptext {
+        visibility: visible;
+    }
+
+</style>
+
+<body>
+    <div id="navbar"></div>
+    <div class="row">
+        <div id="sidebar"></div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main text-center" id="bodyOfThePage">
+           <div style="margin-left: 10%; max-width: 75%;" > <h1 class="page-header">Solar Power Equation</h1>
+            
+            <h2>Editor</h2>
+            
+          <a href="http://photovoltaic-software.com/PV-solar-energy-calculation.php"> <p>Energy = Surface Area * Sunlight (GHI) * Efficiency of the panel * Performance Ratio</p></a> 
+             <p>(E.g.) 3.2448 kWh/Day = 4m<sup>2</sup> * 6kWh/m<sup>2</sup>/Day * 0.169 * 0.8  </p>
+            
+            <p><input type="number" placeholder="Energy   0.9518" style="max-width: 150px; border: 1px solid blue;" id = "enInput" readonly> = 
+            <input id="arInput" type="number" placeholder="Area    2">*
+            <input id="ghiInput" type="number" placeholder="GHI  3.52">*
+            <input id="effInput" type="number" placeholder="Efficiency      0.169">*
+            <input id="perfInput" type="number" placeholder="Performance Ratio    0.80"></p>
+            <button onclick="runEquation()">Run</button>
+            
+            <h3>Answer</h3>
+            <p id="energyReturnHolder">Energy = <span id="energyReturn"></span></p>
+            <p id="">For units refer to the units of your inputs <span id=""></span></p>
+
+<!--            <div style="background-color: azure; height: 300px; width: 800px; margin-left: 100px;;"></div>-->
+
+    </div>
+
+    <!--Triggers-->
+    <span id="sendMeGhiDataNo" style="visibility: hidden;"> true</span>
+    <span id="sendMeGhiDataHoverNO" style="visibility: hidden;"> true</span>
+    <span id="sendMeAveragesComparativeNO" style="visibility: hidden;"> true</span>
+    <!--    //Includes hover-->
+    <span id="isCountryNeededNO" style="visibility: hidden;"></span>
+    <span id="isLatLonSendNeededNO" style="visibility: hidden;"></span>
+    <span id="isStDevNeededNO" style="visibility: hidden;"></span>
+    <span id="areCoordsHoverNeededNO" style="visibility: hidden;"></span>
+    <span id="areNetGhiNeededNO" style="visibility: hidden;"></span>
+
+    </div>
+    </div>
+
+
+
+
+</body>
+
+</html>

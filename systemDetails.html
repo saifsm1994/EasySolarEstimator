@@ -1,0 +1,231 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Easy Solar Estimator System Information</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Dashboard Template for Bootstrap</title>
+
+
+
+    <!-- Bootstrap core CSS -->
+
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="dashboard.css" rel="stylesheet">
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
+    <link rel="stylesheet" href="assets\js\morris.js-0.5.1\morris.css">
+    <script src="assets/js/raphael.min.js"></script>
+    <script src="assets/js/morris.js-0.5.1/morris.js"></script>
+    <script src="engineCodeMain.js"></script>
+    
+    
+
+    <script>
+        $(function() {
+            $("#sidebar").load("sidebar.html");
+            $("#navbar").load("navbar.html");
+            $("#footer").load("footer.html");
+
+//            geoLocater1()
+        });
+
+    </script>
+</head>
+<style>
+    .subBox {
+        display: none;
+    }
+
+    .ct-series-a .ct-slice-pie {
+        /* fill of the pie slieces */
+        fill: hsl(120, 40%, 60%);
+        /* give your pie slices some outline or separate them visually by using the background color here */
+        stroke: white;
+        /* outline width */
+        stroke-width: 4px;
+    }
+
+    .initialHidden {
+        display: none;
+    }
+
+    .placeholder {
+        background: AliceBlue;
+    }
+
+    .clickHeader {
+        background: grey;
+        color: white;
+    }
+
+    .circle {
+        /*        max-width:45%;
+        max-height:45%;
+        185px*/
+        width: 18vh;
+        height: 18vh;
+        border-radius: 50%;
+        <!-- font-size: 18px;
+        -->font-size: 7vw;
+        color: #000;
+        line-height: 18vh;
+        text-align: center;
+        font-weight: bold;
+        cursor: pointer;
+        cursor: hand;
+        margin: auto;
+        padding-bottom: 10px;
+        word-wrap: break-word;
+        overflow: hidden;
+    }
+
+    .boldme {
+        font-weight: bold;
+        padding-bottom: 5px;
+        text-overflow: hidden;
+    }
+
+    .tooltip {}
+
+    .tooltip2 .tooltiptext {
+        visibility: hidden;
+        width: 20vw;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        /* Position the tooltip */
+        position: absolute;
+        z-index: 2;
+        margin-left: -10vw;
+    }
+
+    .tooltip2:hover .tooltiptext {
+        visibility: visible;
+    }
+
+    .circle:hover .tooltiptext {
+        visibility: visible;
+    }
+
+</style>
+
+<body>
+    <div id="navbar"></div>
+    <div class="row">
+        <div id="sidebar"></div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main text-center" id="bodyOfThePage">
+            <h1 class="page-header">System Information</h1>
+
+
+                                 
+            <div class="row placeholders" style="background: aliceblue;">
+            <div id="row1" class="col-sm-6 col-xs-6 col-md-6">
+            <h3 align="left" class ="boldme" >About</h3>  
+            <h4 align="left">This page details the solar system used to come up with our output estimation, as well as how the estimator arrived at the given value</h4>
+            </div>
+            
+            <div id="row1b" class="col-sm-6 col-xs-6 col-md-6" style="visibility:hidden">
+            <h3 align="left">placeholder</h3>    
+            <h4 align ="left">placeholder 2</h4>
+            </div>  
+            </div>
+            
+            
+            
+                                 
+            <div class="row placeholders" style="background: aliceblue;">
+            <div id="row1" class="col-sm-9 col-xs-9 col-md-9">
+            <h3 align="left" class ="boldme" >Solar Panel Used</h3>  
+            <h4 align="left">For the purposes of this model we have used the<a href='https://www.canadiansolar.com/fileadmin/user_upload/downloads/datasheets/v5.531/na/canadian_solar-datasheet-maxpower-CS6U-M-v5.531P1na.pdf'> Canadian Solar CS6U - 330M Panel</a></h4>
+                <h4 class ="boldme"  align="left">Power:<span class ="boldme"  style="margin-left:15%"> 330W</span></h4>
+                <h4 class ="boldme"  align="left">Dimensions:<span class ="boldme"  style="margin-left:10.5%"> 1960 x 992 x 40 mm (77.2 x 39.1 x 1.57 in)</span></h4>
+            <h4 class ="boldme"  align="left">Efficiency: <span class ="boldme" style="margin-left:11.9%">16.97%</span></h4>
+            <h4 class ="boldme"  align="left">Degredation rate: <a href='http://onlinelibrary.wiley.com/doi/10.1002/pip.1182/full'><span class ="boldme" style="margin-left:6.9%">0.5% per year</span></a></h4>
+            
+<!--            <a href='https://www.civicsolar.com/product/canadian-solar-cs6u-330m-330w-mono-quintech-slvwht-solar-panel-5bb'><h4 class ="boldme"  align="left">Cost: <span class ="boldme" style="margin-left:10.5%">$239.25</span></h4></a>-->
+           
+           <h4 class ="boldme" style="margin-bottom: 5px;" align="left">Cost per watt of capacity: <br><br>
+          <a href='https://www.amazon.com/ECO-WORTHY-1200W-Monocrystalline-Solar-Panel/dp/B011918YV0/ref=sr_1_8?s=lawn-garden&ie=UTF8&qid=1509417102&sr=1-8&keywords=Grid+Tie&refinements=p_36%3A60000-99999999'><span class ="boldme" style="margin-left:3%; margin-top: 5px; margin-bottom: 5px;">Low: $1.54 per Watt of Solar Capacity (Cost of a DIY 1200W kit / 1200W)<br><br> </span> </a>
+           <a href='https://www.nrel.gov/docs/fy17osti/68925.pdf'><span class ="boldme" style="margin-left:3%">High: $3.22 per Watt of Solar Capacity (Average Cost in Q1 2017 USA)</span></a></h4>
+            </div>
+            
+<!--
+            <div id="row1b" class="col-sm-6 col-xs-6 col-md-6" style="visibility:hidden">
+            <h3 align="left">placeholder</h3>    
+            <h4 align ="left">placeholder 2</h4>
+            </div>  
+-->
+            </div>
+            
+            
+            <div class= "row placeholder">  
+            <div id="row2" class="col-sm-6 col-xs-6 col-md-6">
+            <h3 align="left" class ="boldme" >Formula</h3>    
+           <a href='http://photovoltaic-software.com/PV-solar-energy-calculation.php'><h4 align ="left">We have used a formula <span class="boldme">E = A * r * H * PR</span></h4></a>
+            <h4 align ="left">Where,</h4>
+                <h4 align ="left"><span class="boldme">E</span> equals Energy Output from the panel in kWh</h4>
+            <h4 align ="left"><span class="boldme">A</span>  equals the panel's surface area</h4>
+            <h4 align ="left"><span class="boldme">r</span>  equals the efficiency of the panel, which also equals max output/area </h4>
+            <h4 align ="left"><span class="boldme">H</span>  equals annual Global Horizontal Irradience</h4>
+            
+            
+            <h4 align ="left"><span class="boldme">PR</span>  equals a performance ratio used to account for general losses in the solar PV system. We have set this to a default value of 80 percent(this value generally ranges from 0.5-0.9)</h4>
+            </div>  
+            
+            
+            
+            <div id="row2" class="col-sm-6 col-xs-6 col-md-6" style="border-left-color: indianred;">
+            <h3 align="left" style="visibility: visible">Assumptions</h3>    
+            <h4 align ="left">1. That the panels are kept clear of debris and operational at all times</h4>
+            <h4 align ="left">2. That the temperature range and other extraneous factors and potential sources of efficiency loss can be acounted for by our PR of 80%</h4>
+            <h4 align ="left">3. We assume that the panel is operating under standard test conditions, and conditions are within manufacturer guidlines. Wind or temperature deviations outside standard testing conditions may affect panel output. </h4>
+            <h4 align ="left">4. That the panel is perfectly horizontal. (Tilting the panel may improve performance based on geolocation)</h4>            
+            <h4 align ="left">5. The system being modeled is an on-grid system and as such we do not account for battery or power storage costs.</h4>           
+            </div>                 
+            </div>
+            
+            
+
+          
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main " id="endRow">
+        <div id="footer"></div>
+
+        </div>
+
+        </div>
+
+        <!--Second Row-->
+
+
+        
+    </div>
+
+    <!--Triggers-->
+    <span id="sendMeGhiDataYes" style="visibility: hidden;"> true</span>
+    <span id="sendMeGhiDataHoverYes" style="visibility: hidden;"> true</span>
+    <span id="sendMeAveragesComparativeYes" style="visibility: hidden;"> true</span>
+    <!--    //Includes hover-->
+    <span id="isCountryNeededYes" style="visibility: hidden;"></span>
+    <span id="isLatLonSendNeededYes" style="visibility: hidden;"></span>
+    <span id="isStDevNeededYes" style="visibility: hidden;"></span>
+    <span id="areCoordsHoverNeededYes" style="visibility: hidden;"></span>
+    <span id="areNetGhiNeededYes" style="visibility: hidden;"></span>
+
+
+
+
+
+</body>
+
+</html>

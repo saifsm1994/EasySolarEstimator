@@ -1,0 +1,337 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Easy Solar Estimator Home Page</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Estimates the viability of using solar power and provides preliminary cost estimates for energy-connected Solar Photovoltaic (PV) energy systems around the world. Helps residential scale users and homeowners determine whether it is worth looking into installing solar PV systems">
+  <meta name="keywords" content="solar estimator, solar calculators, Solar system,Solar panels,renewable energy, viability of solar power, simplified, easy, eli5">
+  <meta name="author" content="Saif Mustafa">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
+    <!-- Bootstrap core CSS -->
+
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="dashboard.css" rel="stylesheet">
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
+    <link rel="stylesheet" href="assets\js\morris.js-0.5.1\morris.css">
+    <script src="assets/js/raphael.min.js"></script>
+    <script src="assets/js/morris.js-0.5.1/morris.js"></script>
+    <script src="engineCodeMain.js"></script>
+
+    <script>
+        $(function() {
+            $("#sidebar").load("sidebar.html");
+            $("#navbar").load("navbar.html");
+            $("#footer").load("footer.html");
+            geoLocater1()
+        });
+
+    </script>
+</head>
+<style>
+    .subBox {
+        display: none;
+    }
+
+    .ct-series-a .ct-slice-pie {
+        /* fill of the pie slieces */
+        fill: hsl(120, 40%, 60%);
+        /* give your pie slices some outline or separate them visually by using the background color here */
+        stroke: white;
+        /* outline width */
+        stroke-width: 4px;
+    }
+
+    .initialHidden {
+        display: none;
+    }
+
+    .placeholder {
+        background: AliceBlue;
+        border-right: solid;
+    }
+
+    .clickHeader {
+        background: grey;
+        color: white;
+    }
+
+
+    .circle {
+        /*        max-width:45%;
+        max-height:45%;
+        185px*/
+        width: 25rem;;
+        height: 25rem;
+        border-radius: 50%;
+
+        font-size: 2.5em;
+        color: #000;
+        line-height: 25rem;
+        text-align: center;
+        font-weight: bold;
+        cursor: pointer;
+        cursor: hand;
+        margin: auto;
+        padding-bottom: 10px;
+        word-wrap: break-word;
+        overflow: hidden;
+        border-right: solid;
+
+        
+/*        font-size: 5*/
+    }
+
+
+
+</style>
+
+<body>
+    <div id="navbar"></div>
+    <div class="row" style="max-width: 2000px;">
+        <div id="sidebar" class="col-sm-2 col-md-2"></div>
+        <div class="col-sm-10 col-sm-offset-2 col-md-10  main text-center" id="bodyOfThePage">
+            <h1 class="page-header">Solar Potential Dashboard <a id="help" onclick="openHelp()">?</a></h1>
+
+           <div><h2 style="color: darkcyan; text-align: left">Is Solar Power Viable in my Area?</h2></div>
+            <div class="row placeholders" style="background: aliceblue;">
+                <!--Circle 1 Location           -->
+                <div class="col-xs-6 col-sm-3 placeholder" id="upBox1" onclick="myFunctionSB1()">
+                    <div class="tooltip2">
+                    <div class="circle upperBox" id="sendadminAreaLong" style=" word-wrap: break-word; background: lightblue;">Location</div>
+                    <h4 class="boldme" id="sendCountryFull">Location</h4>
+                    <span class="text-muted">Location<br>[Accuracy 100 km]</span>
+                    
+                    <span class="tooltiptext">Country: <span id="sendCountryHover"></span>
+                        <br> Latitude: <span id="sendLatHover"></span>
+                        <br> Longitude: <span id="sendLonHover"></span></span>
+                    </div>
+                </div>
+
+                <!--Circle 2 GHI Value           -->
+                <div class="col-xs-6 col-sm-3 placeholder" id="upBox2" onclick="myFunctionSB2()">
+                    <div class="tooltip2">
+                        <div class="circle upperBox" id="sendGhi" style="  background: gold;">Average Annual GHI</div>
+                        <h4 class="boldme">How much Sunlight do you get?</h4>
+                        <span class="text-muted">(Global Horizontal Irradience)</span>
+                        <span class="text-muted">kWh/m<sup>2</sup>/Day</span>
+                        <span class="tooltiptext">Average Daily Sunlight<br>
+                        
+                        Total Yearly GHI: <span id="sendGrossAnnualGhiTooltip"></span>
+                        <br>Average Daily GHI: <span id="sendAnnualGhiTooltip"></span>
+                        <br> Monthly Averages<br> Highest Daily GHI: <span id="sendMaxMonthGhiTooltip"></span>
+                        <br> Lowest Daily GHI: <span id="sendMinMonthGhiTooltip"></span></span>
+                    </div>
+                </div>
+
+                <!--Circle 3 Comparitive GHI          -->
+
+                <div class="col-xs-6 col-sm-3 placeholder" id="upBox3" onclick="myFunctionSB3()">
+
+                    <div class="tooltip2">
+                        <div class="circle upperBox" id="sendCompGhi" style="  background: plum;">Comparitive GHI</div>
+                        <h4 class="boldme">How does this compare to the Sunniest place on earth?</h4>
+                        <span class="text-muted"></span>
+
+                        <span class="tooltiptext">Compared to other places in the world<br>  <br>
+                        
+                        The global median GHI is: <span id="sendMedianAnnualGHI"></span>
+                         kWh/m<sup>2</sup>/day<br> Compared to that you get: <span style="color: red;" id="sendRelativeToMedian"></span> as much power
+                        <br> <br>The global highest GHI is: <span id="sendGlobalMaximumAnnualGHI" style="color: red;"></span> kWh/m<sup>2</sup>/day
+                        <br> Compared to that you get:: <span id="sendRelativeToGlobalMax"></span> as much power
+                        <br> </span>
+                    </div>
+                </div>
+
+                <!--Circle 4 Relative Potential          -->
+
+                <div class="col-xs-6 col-sm-3 placeholder" id="upBox4" onclick="myFunctionSB4()">
+
+                    <div class="tooltip2">
+                       
+                        <div class="circle upperBox" id="sendLevelOfSolarPowerPotential" style=" overflow:hidden; word-wrap:break-word; background: brown; color: white;">Potential for Solar power</div>
+                        
+                        <h4 class="boldme">Potential for Solar Power Use</h4>
+
+                        <span class="text-muted">Relative potential for Solar power</span>
+
+                        <span class="tooltiptext2">Mean Annual Global GHI: <span id="sendGlobalMean"></span>
+
+                        <br> Global Standard Deviation: <span id="sendStDev"></span>
+
+                        <br> You are currently <span id="sendDevsFromMean"></span>
+                        <br> </span>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+        <!--Second Row-->
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main text-center" id="secondRow">
+
+            <!--JUMBOTRON-->
+            <div class="col-xs-6 col-sm-6 col-md-9 col-md-offset-2 placeholder" id="upBoxJumbo">
+                    <div class="tooltip2">
+                    
+                <div class="circlebig upperBoxbig" id="sendNetGHI" style="  background: brown; font-size: 30px;">Attainable Solar Power</div>
+
+                
+                <span class="tooltiptext">Costs before taxes/credits/subsidies
+                <br>Cost of this system: $ <span id="sendDailyCost"></span>
+                
+                <br>Cost per kWh If you run the panel for 1 year: $ <span id="sendyear1cost"></span><br>
+                
+                Cost per kWh If you run the panel for 10 years: $ <span  id="sendyear10cost"></span> <br>
+                
+                Cost per kWh If you run the panel for 20 years: $ <span id="sendyear20cost"></span><br>
+                
+               Click for more details </span>
+                
+                </div>
+                <h4 class="boldme">How much power might you expect?</h4>
+                <a href="systemDetails.html">
+                <h4 class="boldme">Capturable solar power with a 330W 16.9% efficent panel of area 2m x 1m</h4></a>
+                <div  class="tooltip2">
+                <h4> What does this mean?</h4>
+                
+                <span class="tooltiptext" style="text-align: left;">
+                    This much power can:<br>
+                        Run a 50 inch LED television set for <span  class="boldme" style="color: red;" id="sendTvHours"> hours</span><br>
+                
+                        Power a 1500 Watt space heater for <span id="send1000WHeaterHours"  class="boldme" style="color: red;"> hours</span><br>
+                        
+                        Percentage of an average household's annual needs: <span  id="sendAverageHomePercent"  class="boldme" style="color: red;">% </span> <br>
+
+                </span>
+                                </div>
+                <span class="text-muted"></span>            </div>
+            
+            
+
+        </div>
+        
+        
+          
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main " id="endRow">
+        <div id="footer"></div>
+
+        </div>
+          
+
+        
+    </div>
+
+   
+    <!--Triggers-->
+    <span id="sendMeGhiDataYes" style="visibility: hidden;"> true</span>
+    <span id="sendMeGhiDataHoverYes" style="visibility: hidden;"> true</span>
+    <span id="sendMeAveragesComparativeYes" style="visibility: hidden;"> true</span>
+    <!--    //Includes hover-->
+    <span id="isCountryNeededYes" style="visibility: hidden;"></span>
+    <span id="isLatLonSendNeededYes" style="visibility: hidden;"></span>
+    <span id="isStDevNeededYes" style="visibility: hidden;"></span>
+    <span id="areCoordsHoverNeededYes" style="visibility: hidden;"></span>
+    <span id="areNetGhiNeededYes" style="visibility: hidden;"></span>
+
+
+<script>$(document).ready(function () {
+        
+//Source Stack Overflow Function send message 1 time only
+
+//    $("#delCookie").click(function(){
+//        del_cookie("cookie");   
+//    });
+//function del_cookie(name)
+//{
+//    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+//}
+        
+    console.log(document.cookie);
+    var visit = getCookie("cookie");
+    if (visit == null) {
+//        alert('Hi and Welcome to EasySolarEstimator.site\n\nThis is a free tool designed to help you understand if you get enough sunlight for a home solar power system.\n\nThe two red circles summarize this information for convinence.\n\n\n\nPlease note: EasySolarEstimator assumes no responsibility for the contents of this service.');
+        modalShow();
+        
+        
+//        openHelp() Blocked automatically
+        var expire = new Date();
+        expire = new Date(expire.getTime() + 777600000);
+        document.cookie = "cookie=here; expires=" + expire;
+    }
+});
+
+
+
+function getCookie(c_name) {
+    var c_value = document.cookie;
+    var c_start = c_value.indexOf(" " + c_name + "=");
+    if (c_start == -1) {
+        c_start = c_value.indexOf(c_name + "=");
+    }
+    if (c_start == -1) {
+        c_value = null;
+    } else {
+        c_start = c_value.indexOf("=", c_start) + 1;
+        var c_end = c_value.indexOf(";", c_start);
+        if (c_end == -1) {
+            c_end = c_value.length;
+        }
+        c_value = unescape(c_value.substring(c_start, c_end));
+    }
+    return c_value;
+}</script>
+
+
+
+
+
+<!-- Trigger the modal with a button -->
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" id="showModal" style="margin-left:500px; background-color: transparent; width: 1px; height: 1px;">Open Modal</button>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Welcome to EasySolarEstimator.site</h4>
+      </div>
+      <div class="modal-body">
+        <p>This is a free tool designed to help you understand if you get enough sunlight for a home solar power system.</p>
+        <br>
+        <span style="color: red;">The two red circles summarize this information for convinence.</span>
+        <br>
+        <br>
+        <br>
+        <p style="font-size: 10px;">Please note: EasySolarEstimator assumes no responsibility for the contents of this service.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+</body>
+
+</html>
