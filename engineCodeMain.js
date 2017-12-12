@@ -43,8 +43,7 @@ function geoLocater1() {
         console.warn("ERROR");
         console.log("Geolocation permission denied or not working (This will not work in chrome)");
 
-        // if navigator geolocation won't work get ip permission if activated
-        // N.G. won't work without a ssl cert
+
         getIpPermission();
 
         console.log("google api error - running ipapi");
@@ -61,8 +60,6 @@ function geoLocater1() {
 
 
 // Function 2 gets geolocation ip permission
-//deactivated right now because it was intrusive and user's didn't like it
-//currently assuming permission given
 function getIpPermission() {
 
     if(sessionStorage.permissionGiven == 'Yes'){getIpLocation();}else{
@@ -98,7 +95,7 @@ if(sessionStorage.jd !== undefined){
     var jd = JSON.parse(sessionStorage.jd);
     console.log('Location has been stored and pulled from session storage - to refresh open in new tab');
     
-    //these throw the values to a holding variable
+    //burnaby
         var city = jd.city;
         holder.city = city;
         var adminAreaLong = jd.city;
@@ -131,7 +128,7 @@ if(sessionStorage.jd !== undefined){
     
         
         //These make another call of geocoding unnecessary - however it isn't currently worth optimizing this yet to ensure a single call - key issue is difference between adminAreaLong and City name
-        
+
         //Latitude Defined here
       var lat = jd.latitude;
         holder.lat = lat;
@@ -147,7 +144,8 @@ if(sessionStorage.jd !== undefined){
         countrySender(adminAreaLong, cityLong, countryLong, fullAddress);
     
 }else{
-    $.getJSON("https://ipapi.co/json/?key=APIKEYHERE", function (jd) {
+    $.getJSON("https://ipapi.co/json/?key=8f9f1a3703a41d5e32eac54bca729d17ec49d8db", function (jd) {
+        //https://ipapi.co/json/?key=8f9f1a3703a41d5e32eac54bca729d17ec49d8db
 //        console.log('not stored in session storage');
 
         
@@ -206,8 +204,7 @@ if(sessionStorage.jd !== undefined){
 
         
     }).fail(function(){
-        // if calls to api have run out
-        // unlikely given typical daily users should be <1-300 & we have 2-5k daily calls
+        
         
         jd = {
     "ip": "Out of Calls for Today",
@@ -256,7 +253,7 @@ function countryGet(lat, lon) {
     //Install switch to switch to ip api when free calls are exhausted TODO
 
 
-    var GEOCODING = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + '%2C' + lon + '&key=APIKEYHERE';
+    var GEOCODING = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + '%2C' + lon + '&key=AIzaSyCOePagk89VcwuNpkiLItJbzi0YqYQcr90';
 
     $.getJSON(GEOCODING).done(function (location) {handleGeoCode(location, GEOCODING);
     });
@@ -767,15 +764,15 @@ function sendGhiHover(ghiAnn, highest, lowest) {
     
     avgGrossAnnualGhi = avgGrossAnnualGhi.toFixed(2);
     
-    document.getElementById("sendGrossAnnualGhiTooltip").innerHTML = avgGrossAnnualGhi + " kWh/m<sup>2</sup>/Year";
-
+    document.getElementById("sendGrossAnnualGhiTooltip").innerHTML = avgGrossAnnualGhi;
+//sendGrossAnnualGhiTooltip
     
-    document.getElementById("sendAnnualGhiTooltip").innerHTML = ghiAnn  + " kWh/m<sup>2</sup>/Day";
-
-    document.getElementById("sendMaxMonthGhiTooltip").innerHTML = highest  + " kWh/m<sup>2</sup>/Day";
-
-    document.getElementById("sendMinMonthGhiTooltip").innerHTML = lowest  + " kWh/m<sup>2</sup>/Day";
-
+    document.getElementById("sendAnnualGhiTooltip").innerHTML = ghiAnn ;
+// + " kWh/m<sup>2</sup>/Day"
+    document.getElementById("sendMaxMonthGhiTooltip").innerHTML = highest;
+//  + " kWh/m<sup>2</sup>/Day"
+    document.getElementById("sendMinMonthGhiTooltip").innerHTML = lowest;
+//  + " kWh/m<sup>2</sup>/Day"
 
 }
 
