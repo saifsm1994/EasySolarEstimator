@@ -144,8 +144,8 @@ if(sessionStorage.jd !== undefined){
         countrySender(adminAreaLong, cityLong, countryLong, fullAddress);
     
 }else{
-    $.getJSON("https://ipapi.co/json/?key=8f9f1a3703a41d5e32eac54bca729d17ec49d8db", function (jd) {
-        //https://ipapi.co/json/?key=8f9f1a3703a41d5e32eac54bca729d17ec49d8db
+    $.getJSON("https://ipapi.co/json/?key=xxxxx", function (jd) {
+        //https://ipapi.co/json/?key=xxxxxxxx
 //        console.log('not stored in session storage');
 
         
@@ -253,7 +253,7 @@ function countryGet(lat, lon) {
     //Install switch to switch to ip api when free calls are exhausted TODO
 
 
-    var GEOCODING = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + '%2C' + lon + '&key=AIzaSyCOePagk89VcwuNpkiLItJbzi0YqYQcr90';
+    var GEOCODING = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + '%2C' + lon + '&key=XXXXXXX';
 
     $.getJSON(GEOCODING).done(function (location) {handleGeoCode(location, GEOCODING);
     });
@@ -1517,7 +1517,7 @@ function initMap() {
     var options = {
       center: centerOfMap, //Set center.
       zoom: 7 //The zoom value.
-//      key: AIzaSyCcHJvV8eqa4aFxlTUjqr5erjS9YbdVakQ    //api key
+//      key: XXXXXXXXXX    //api key
     };
  
     //Create the map object.
